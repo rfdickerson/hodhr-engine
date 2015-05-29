@@ -1,0 +1,5 @@
+HodhrEngine
+Author: Robert F. Dickerson
+
+Requires:
+- Qt, GLEW, GLM
