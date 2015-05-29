@@ -1,0 +1,39 @@
+phong
+
+//vertex 
+
+#version 330 core
+
+layout (location = 0) in vec3 VertexPosition;
+layout (location = 1) in vec3 VertexNormal;
+layout (location = 2) in vec3 VertexTangent;
+layout (location = 3) in vec3 VertexBittangent;
+layout (location = 4) in vec2 VertexUV;
+layout (location = 5) in vec3 VertexColor;
+
+uniform mat4 MVP;
+
+out vec3 fragmentColor;
+
+void main()
+{
+	fragmentColor = VertexColor;
+        gl_Position = MVP * vec4(VertexPosition, 1.0);
+}
+
+
+//fragment
+
+#version 330 core
+
+in vec3 fragmentColor;
+// layout (location = 0) out vec4 FragColor;
+out vec3 color;
+
+void main() {
+
+     color = fragmentColor;
+	// color = vec3(1.0,0.0,1.0);
+
+}
+
