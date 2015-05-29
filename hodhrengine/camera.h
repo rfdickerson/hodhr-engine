@@ -42,6 +42,7 @@ public:
     glm::mat4 projectionMatrix() const;
     glm::mat4 viewMatrix() const;
 
+    static std::vector<Camera*> & allCameras();
     static Camera * current();
     static void setCurrent(Camera *camera);
 
@@ -52,7 +53,7 @@ protected:
     /**
      * @brief List of references to all the cameras.
      */
-    static std::vector<Camera*> allCameras;
+    static std::vector<Camera*> mAllCameras;
 
 
     int width;
@@ -75,9 +76,6 @@ protected:
     RenderingPath renderingPath;
 
     RenderTexture * targetTexture;
-
-
-
 
     glm::mat4 mProjectionMatrix; // projection matrix
     glm::mat4 mViewMatrix;

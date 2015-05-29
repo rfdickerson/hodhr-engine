@@ -19,7 +19,7 @@
 
 using namespace Hodhr;
 
-std::vector<Camera*> Camera::allCameras;
+std::vector<Camera*> Camera::mAllCameras;
 Camera * Camera::mCurrent = NULL;
 
 
@@ -30,7 +30,7 @@ Camera::Camera(const GameObject& gameObject, int width, int height)
     aspect = (float)width/(float)height;
     fieldOfView = 45.0f;
 
-    allCameras.push_back(this);
+    mAllCameras.push_back(this);
 
     backgroundColor = Color::DarkGrey();
 
@@ -138,12 +138,11 @@ void Camera::render()
 
 
     }
+}
 
-
-
-
-
-
+std::vector<Camera*> & Camera::allCameras()
+{
+    return mAllCameras;
 }
 
 

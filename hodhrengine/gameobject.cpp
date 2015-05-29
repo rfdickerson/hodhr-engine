@@ -92,15 +92,15 @@ GameObject* GameObject::createPrimitive(PrimitiveType type)
        mesh->vertices.push_back(glm::vec3( shapeSize, -shapeSize, -shapeSize));
        mesh->vertices.push_back(glm::vec3( shapeSize,  shapeSize, -shapeSize));
 
-       mesh->normals.push_back(glm::vec3(0,1,0));
-       mesh->normals.push_back(glm::vec3(0,1,0));
-       mesh->normals.push_back(glm::vec3(0,1,0));
-       mesh->normals.push_back(glm::vec3(0,1,0));
+       mesh->normals.push_back(glm::vec3(0,-1,0));
+       mesh->normals.push_back(glm::vec3(0,-1,0));
+       mesh->normals.push_back(glm::vec3(0,-1,0));
+       mesh->normals.push_back(glm::vec3(0,-1,0));
 
-       mesh->normals.push_back(glm::vec3(1,0,0));
-       mesh->normals.push_back(glm::vec3(1,0,0));
-       mesh->normals.push_back(glm::vec3(1,0,0));
-       mesh->normals.push_back(glm::vec3(1,0,0));
+       mesh->normals.push_back(glm::vec3(0,1,0));
+       mesh->normals.push_back(glm::vec3(0,1,0));
+       mesh->normals.push_back(glm::vec3(0,1,0));
+       mesh->normals.push_back(glm::vec3(0,1,0));
 
        mesh->normals.push_back(glm::vec3(-1,0,0));
        mesh->normals.push_back(glm::vec3(-1,0,0));
@@ -112,15 +112,15 @@ GameObject* GameObject::createPrimitive(PrimitiveType type)
        mesh->normals.push_back(glm::vec3(1,0,0));
        mesh->normals.push_back(glm::vec3(1,0,0));
 
-       mesh->normals.push_back(glm::vec3(1,0,0));
-       mesh->normals.push_back(glm::vec3(1,0,0));
-       mesh->normals.push_back(glm::vec3(1,0,0));
-       mesh->normals.push_back(glm::vec3(1,0,0));
+       mesh->normals.push_back(glm::vec3(0,0,1));
+       mesh->normals.push_back(glm::vec3(0,0,1));
+       mesh->normals.push_back(glm::vec3(0,0,1));
+       mesh->normals.push_back(glm::vec3(0,0,1));
 
-       mesh->normals.push_back(glm::vec3(1,0,0));
-       mesh->normals.push_back(glm::vec3(1,0,0));
-       mesh->normals.push_back(glm::vec3(1,0,0));
-       mesh->normals.push_back(glm::vec3(1,0,0));
+       mesh->normals.push_back(glm::vec3(0,0,-1));
+       mesh->normals.push_back(glm::vec3(0,0,-1));
+       mesh->normals.push_back(glm::vec3(0,0,-1));
+       mesh->normals.push_back(glm::vec3(0,0,-1));
 
        mesh->uvs.push_back(glm::vec2(0,0));
        mesh->uvs.push_back(glm::vec2(0,1));

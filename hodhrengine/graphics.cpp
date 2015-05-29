@@ -46,10 +46,30 @@ Graphics::~Graphics()
 
 }
 
+/**
+ * @brief Graphics::drawMesh
+ * @param mesh
+ * @param position
+ * @param rotation
+ * @param mat
+ * @param layer
+ * @param camera If null (default), the mesh will be drawn in all cameras. Otherwise,
+ * it will be rendered in the given camera only.
+ * @param submeshIndex
+ * @param properties Additional material properties to apply onto material.
+ * @param castShadows
+ * @param receiveShadows
+ */
 void Graphics::drawMesh(const Mesh & mesh,
                         const glm::vec3 & position,
                         const glm::quat & rotation,
-                        const Material & mat)
+                        const Material & mat,
+                        int layer,
+                        const Camera * camera,
+                        int submeshIndex,
+                        const MaterialPropertyBlock * properties,
+                        bool castShadows,
+                        bool receiveShadows)
 {
 
     if (mat.shader() == NULL)
@@ -64,6 +84,10 @@ void Graphics::drawMesh(const Mesh & mesh,
     }
 
     glUseProgram(mat.shader()->shaderProgramID);
+
+    if (camera == NULL) {
+
+    }
 
     Camera *currentCamera = Camera::current();
     currentCamera->resetProjectionMatrix();
@@ -95,8 +119,33 @@ void Graphics::drawMesh(const Mesh & mesh,
     glUniformMatrix4fv(projLocation, 1, GL_FALSE, glm::value_ptr(projMatrix) );
 
     const GLint normalMatrixLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"NormalMatrix");
-    glUniformMatrix4fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix) );
+    glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix) );
 
+    glm::vec3 lightPos(1,1,0);
+    glm::vec3 materialKa(.2,.2,.2);
+    glm::vec3 materialKd(1,1,1);
+    glm::vec3 materialKs(.2,.2,.2);
+    glm::vec3 lightLd(.2,.2,.2);
+    glm::vec3 lightLa(.2,.2,.2);
+
+
+    const GLint lightPositionLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"Light.Position");
+    glUniform3fv(lightPositionLoc, 1, glm::value_ptr(lightPos));
+
+    const GLint materialKaLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"Material.Ka");
+    glUniform3fv(materialKaLoc, 1, glm::value_ptr(materialKa));
+
+    const GLint materialKdLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"Material.Kd");
+    glUniform3fv(materialKdLoc, 1, glm::value_ptr(materialKd));
+
+    const GLint materialKsLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"Material.Ks");
+    glUniform3fv(materialKsLoc, 1, glm::value_ptr(materialKs));
+
+    const GLint lightLdLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"Light.Ld");
+    glUniform3fv(lightLdLoc, 1, glm::value_ptr(lightLd));
+
+    const GLint lightLaLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"Light.La");
+    glUniform3fv(lightLaLoc, 1, glm::value_ptr(lightLa));
 
     checkErrors("Prepare to bind vertex array object.");
     glBindVertexArray(mesh.mVAO);

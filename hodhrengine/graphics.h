@@ -7,6 +7,7 @@
 #include "rendertexture.h"
 #include "material.h"
 #include "rect.h"
+#include "camera.h"
 
 #define GLEW_STATIC
 #include "GL/glew.h"
@@ -36,7 +37,14 @@ public:
     static void drawMesh(const Mesh & mesh,
                          const glm::vec3 & position,
                          const glm::quat & rotation,
-                         const Material & mat);
+                         const Material & mat,
+                         int layer = 0,
+                         const Camera * camera = NULL,
+                         int submeshIndex = 0,
+                         const MaterialPropertyBlock * properties = NULL,
+                         bool castShadows = true,
+                         bool receiveShadows = true
+                         );
 
     static void uploadMesh( Mesh *mesh );
 
