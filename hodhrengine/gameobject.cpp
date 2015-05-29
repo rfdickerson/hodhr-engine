@@ -48,10 +48,10 @@ GameObject* GameObject::createPrimitive(PrimitiveType type)
        mesh->uvs.push_back(glm::vec2(1,0));
        mesh->uvs.push_back(glm::vec2(1,1));
 
-       mesh->colors.push_back(Color::red());
-       mesh->colors.push_back(Color::green());
-       mesh->colors.push_back(Color::blue());
-       mesh->colors.push_back(Color::pink());
+       mesh->colors.push_back(Color::Red());
+       mesh->colors.push_back(Color::Green());
+       mesh->colors.push_back(Color::Blue());
+       mesh->colors.push_back(Color::Pink());
 
        mesh->triangles.push_back(0);
        mesh->triangles.push_back(2);
@@ -117,25 +117,29 @@ GameObject* GameObject::createPrimitive(PrimitiveType type)
        mesh->uvs.push_back(glm::vec2(1,0));
        mesh->uvs.push_back(glm::vec2(1,1));
 
-       mesh->colors.push_back(Color::red());
-       mesh->colors.push_back(Color::green());
-       mesh->colors.push_back(Color::blue());
-       mesh->colors.push_back(Color::pink());
+       mesh->colors.push_back(Color::Red());
+       mesh->colors.push_back(Color::Green());
+       mesh->colors.push_back(Color::Blue());
+       mesh->colors.push_back(Color::Pink());
 
-       mesh->colors.push_back(Color::red());
-       mesh->colors.push_back(Color::green());
-       mesh->colors.push_back(Color::blue());
-       mesh->colors.push_back(Color::pink());
 
-       mesh->colors.push_back(Color::red());
-       mesh->colors.push_back(Color::green());
-       mesh->colors.push_back(Color::blue());
-       mesh->colors.push_back(Color::pink());
+       mesh->colors.push_back(Color::Red());
+       mesh->colors.push_back(Color::Green());
+       mesh->colors.push_back(Color::Blue());
+       mesh->colors.push_back(Color::Pink());
 
-       mesh->colors.push_back(Color::red());
-       mesh->colors.push_back(Color::green());
-       mesh->colors.push_back(Color::blue());
-       mesh->colors.push_back(Color::pink());
+
+       mesh->colors.push_back(Color::Red());
+       mesh->colors.push_back(Color::Green());
+       mesh->colors.push_back(Color::Blue());
+       mesh->colors.push_back(Color::Pink());
+
+
+       mesh->colors.push_back(Color::Red());
+       mesh->colors.push_back(Color::Green());
+       mesh->colors.push_back(Color::Blue());
+       mesh->colors.push_back(Color::Pink());
+
 
        mesh->triangles.push_back(0);
        mesh->triangles.push_back(1);

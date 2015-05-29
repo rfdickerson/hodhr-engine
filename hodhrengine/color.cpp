@@ -5,27 +5,27 @@
 using namespace Hodhr;
 
 Color::Color()
-    : gamma(2.2f), colorData(1,1,1,1)
+    : mGamma(2.2f), mColorData(1,1,1,1)
 {
 
 }
 
 Color::Color(float r, float g, float b, float a)
-    : gamma(2.2f), colorData(r,g,b,a)
+    : mGamma(2.2f), mColorData(r,g,b,a)
 {
 
 }
 
 Color::Color(const Color& c)
 {
-    colorData = c.colorData;
-    gamma = c.gamma;
+    mColorData = c.mColorData;
+    mGamma = c.mGamma;
 }
 
 Color& Color::operator=(const Color& other)
 {
-    colorData = other.colorData;
-    gamma = other.gamma;
+    mColorData = other.mColorData;
+    mGamma = other.mGamma;
 
     return *this;
 }
@@ -35,60 +35,60 @@ Color::~Color()
 
 }
 
-Color Color::yellow()
+Color Color::Yellow()
 {
     return Color(1.0f,0.92f,0.016f,1.0f);
 }
 
-Color Color::pink()
+Color Color::Pink()
 {
     return Color(1,0.078f,0.576f,1.0f);
 }
 
-Color Color::lightGrey()
+Color Color::LightGrey()
 {
     return Color(.75,.75,.75,1.0f);
 }
 
-Color Color::darkGrey()
+Color Color::DarkGrey()
 {
     return Color(.35,.35,.35,1.0f);
 }
 
-Color Color::red()
+Color Color::Red()
 {
     return Color(1.0, 0.0,0.0,1.0f);
 }
 
- Color Color::green()
+ Color Color::Green()
  {
      return Color(0.0, 1.0, 0.0, 1.0f);
  }
 
- Color Color::blue()
+ Color Color::Blue()
  {
      return Color(0.0f, 0.0f, 1.0f, 1.0f);
  }
 
 
-float Color::getRed() const
+float Color::red() const
 {
-    return colorData.r;
+    return mColorData.r;
 }
 
-float Color::getGreen() const
+float Color::green() const
 {
-    return colorData.g;
+    return mColorData.g;
 }
 
-float Color::getBlue() const
+float Color::blue() const
 {
-    return colorData.b;
+    return mColorData.b;
 }
 
-float Color::getAlpha() const
+float Color::alpha() const
 {
-    return colorData.a;
+    return mColorData.a;
 }
 
 

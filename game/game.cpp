@@ -120,7 +120,7 @@ void Game::init()
 
     GameObject *lightGameObject = new GameObject("The Light");
     Light *lightComp = new Light(*lightGameObject);
-    lightComp->setColor( Color::yellow() );
+    lightComp->setColor( Color::Yellow() );
     // light.transform.position =
     scene->AddGameObject(lightGameObject);
 

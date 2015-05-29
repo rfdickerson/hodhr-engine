@@ -18,22 +18,25 @@ namespace Hodhr {
 
         ~Color();
 
-        float getRed() const;
-        float getGreen() const;
-        float getBlue() const;
-        float getAlpha() const;
+        float red() const;
+        float green() const;
+        float blue() const;
+        float alpha() const;
+        float gamma() const;
 
         // Returns a yellow color.
-        static Color yellow();
-        static Color pink();
-        static Color lightGrey();
-        static Color darkGrey();
-        static Color red();
-        static Color green();
-        static Color blue();
+        static Color Yellow();
+        static Color Pink();
+        static Color LightGrey();
+        static Color DarkGrey();
+        static Color Red();
+        static Color Green();
+        static Color Blue();
 
-        float gamma;
-        glm::vec4 colorData;
+   private:
+
+        float mGamma;
+        glm::vec4 mColorData;
 
 
     };

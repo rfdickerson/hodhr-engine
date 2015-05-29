@@ -32,7 +32,7 @@ Camera::Camera(const GameObject& gameObject, int width, int height)
 
     allCameras.push_back(this);
 
-    backgroundColor = Color::darkGrey();
+    backgroundColor = Color::DarkGrey();
 
 
     Debug::log("Graphics", "Added a camera");
@@ -90,10 +90,10 @@ void Camera::resetProjectionMatrix()
 void Camera::render()
 {
 
-    const GLfloat r = backgroundColor.getRed();
-    const GLfloat g = backgroundColor.getGreen();
-    const GLfloat b = backgroundColor.getBlue();
-    const GLfloat a = backgroundColor.getAlpha();
+    const GLfloat r = backgroundColor.red();
+    const GLfloat g = backgroundColor.green();
+    const GLfloat b = backgroundColor.blue();
+    const GLfloat a = backgroundColor.alpha();
 
     Graphics::checkErrors("Camera prepare render.");
 

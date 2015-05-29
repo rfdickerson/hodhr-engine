@@ -147,9 +147,9 @@ void Graphics::uploadMesh( Mesh* mesh )
         hv.bz = mesh->bittangents[i].z;
         hv.s = mesh->uvs[i].x;
         hv.t = mesh->uvs[i].y;
-        hv.r = mesh->colors[i].getRed()*USHRT_MAX;
-        hv.g = mesh->colors[i].getGreen()*USHRT_MAX;
-        hv.b = mesh->colors[i].getBlue()*USHRT_MAX;
+        hv.r = mesh->colors[i].red()*USHRT_MAX;
+        hv.g = mesh->colors[i].green()*USHRT_MAX;
+        hv.b = mesh->colors[i].blue()*USHRT_MAX;
 
 
         hvertices.push_back(hv);
