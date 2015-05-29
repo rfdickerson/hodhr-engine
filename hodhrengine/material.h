@@ -33,7 +33,13 @@ public:
 
     void setMaterialPropertyBlock(MaterialPropertyBlock *materialPropertyBlock);
 
+    void setInt(const std::string name, int value);
+
+    void setPass(int pass);
+
     void setShader(Shader * shader);
+
+    void setTexture(const std::string propertyName, const Texture * texture);
 
     // getters
     Color color() const;

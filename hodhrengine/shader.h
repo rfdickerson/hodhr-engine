@@ -47,6 +47,8 @@ namespace Hodhr {
 
         int GetProgramID() const;
 
+        static int propertyToID(const std::string & name);
+
         /**
          * @brief Shader LOD level for the shader.
          */

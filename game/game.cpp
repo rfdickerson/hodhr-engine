@@ -121,10 +121,11 @@ void Game::init()
     GameObject *lightGameObject = new GameObject("The Light");
     Light *lightComp = new Light(*lightGameObject);
     lightComp->setColor( Color::Yellow() );
+    lightGameObject->transform()->translate(0,0,5);
     // light.transform.position =
     scene->AddGameObject(lightGameObject);
 
-    Shader * phongShader = Resources::LoadShader("../../Hodhr/resources/shaders/basic.sdr");
+    Shader * phongShader = Resources::LoadShader("../../Hodhr/resources/shaders/phong.sdr");
     phongShader->compile();
 
     Material *mat = new Material();

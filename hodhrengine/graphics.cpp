@@ -6,9 +6,11 @@
 
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform2.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -77,11 +79,23 @@ void Graphics::drawMesh(const Mesh & mesh,
     const glm::mat4 r = glm::toMat4(rotation);
 
     const glm::mat4 model = t * r;
+    const glm::mat4 mvmatrix = vm * model;
 
     const glm::mat4 mvpMatrix = projMatrix * vm * model;
 
+    const glm::mat3 normalMatrix = glm::inverseTranspose(glm::mat3(mvmatrix));
+
     const GLint mvpLocation = glGetUniformLocation(mat.shader()->GetProgramID(),"MVP");
     glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, glm::value_ptr(mvpMatrix) );
+
+    const GLint mvLocation = glGetUniformLocation(mat.shader()->GetProgramID(),"ModelViewMatrix");
+    glUniformMatrix4fv(mvLocation, 1, GL_FALSE, glm::value_ptr(mvmatrix) );
+
+    const GLint projLocation = glGetUniformLocation(mat.shader()->GetProgramID(),"ProjectionMatrix");
+    glUniformMatrix4fv(projLocation, 1, GL_FALSE, glm::value_ptr(projMatrix) );
+
+    const GLint normalMatrixLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"NormalMatrix");
+    glUniformMatrix4fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix) );
 
 
     checkErrors("Prepare to bind vertex array object.");
@@ -91,12 +105,12 @@ void Graphics::drawMesh(const Mesh & mesh,
     glEnableVertexAttribArray(0);
 
     glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-    glEnableVertexAttribArray(3);
-    glEnableVertexAttribArray(4);
+    // glEnableVertexAttribArray(2);
+    // glEnableVertexAttribArray(3);
+    // glEnableVertexAttribArray(4);
 
 
-    glEnableVertexAttribArray(5);
+    // glEnableVertexAttribArray(5);
 
     //glDrawArrays(GL_TRIANGLES, 0, mesh.vertices.size());
     glDrawElements(GL_TRIANGLES, mesh.triangles.size(), GL_UNSIGNED_SHORT, NULL);
@@ -211,11 +225,18 @@ void Graphics::uploadMesh( Mesh* mesh )
     checkErrors("Create vertex array object.");
 
     glBindVertexArray(0);
-    // glDeleteBuffers(1, &vertexBuffer);
-    // glDeleteBuffers(1, &indiceBuffer);
+    glDeleteBuffers(1, &vertexBuffer);
+    glDeleteBuffers(1, &indiceBuffer);
 
     Debug::log("Graphics", "Uploaded mesh to GPU.");
 
+}
+
+void removeMesh( Mesh *mesh )
+{
+    if (mesh->vao()) {
+        // glDeleteVertexArrays(1, &mesh->vao());
+    }
 }
 
 void Graphics::checkErrors(const std::string & label)

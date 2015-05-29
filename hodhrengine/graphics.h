@@ -40,6 +40,8 @@ public:
 
     static void uploadMesh( Mesh *mesh );
 
+    static void removeMesh( Mesh *mesh );
+
 
     static void drawTexture(const Rect& screenRect, const Texture& texture, const Material& mat);
 

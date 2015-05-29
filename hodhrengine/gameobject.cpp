@@ -112,6 +112,16 @@ GameObject* GameObject::createPrimitive(PrimitiveType type)
        mesh->normals.push_back(glm::vec3(1,0,0));
        mesh->normals.push_back(glm::vec3(1,0,0));
 
+       mesh->normals.push_back(glm::vec3(1,0,0));
+       mesh->normals.push_back(glm::vec3(1,0,0));
+       mesh->normals.push_back(glm::vec3(1,0,0));
+       mesh->normals.push_back(glm::vec3(1,0,0));
+
+       mesh->normals.push_back(glm::vec3(1,0,0));
+       mesh->normals.push_back(glm::vec3(1,0,0));
+       mesh->normals.push_back(glm::vec3(1,0,0));
+       mesh->normals.push_back(glm::vec3(1,0,0));
+
        mesh->uvs.push_back(glm::vec2(0,0));
        mesh->uvs.push_back(glm::vec2(0,1));
        mesh->uvs.push_back(glm::vec2(1,0));

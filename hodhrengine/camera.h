@@ -14,24 +14,26 @@ namespace Hodhr {
 class Color;
 class RenderTexture;
 
-typedef enum {
-    RenderForward,
-    RenderDeferredLighting,
-    RenderDeferredShading
-} RenderingPath;
-
-typedef enum  {
-    BEFORE_DEPTH_TEXTURE,
-    AFTER_DEPTH_TEXTURE,
-    BEFORE_GBUFFER,
-    AFTER_GBUFFER,
-    BEFORE_FINAL_PASS,
-    AFTER_FINAL_PASS
-} CameraEvent;
-
 class Camera : public Behavior
 {
 public:
+
+    typedef enum {
+        RenderForward,
+        RenderDeferredLighting,
+        RenderDeferredShading
+    } RenderingPath;
+
+    typedef enum  {
+        BEFORE_DEPTH_TEXTURE,
+        AFTER_DEPTH_TEXTURE,
+        BEFORE_GBUFFER,
+        AFTER_GBUFFER,
+        BEFORE_FINAL_PASS,
+        AFTER_FINAL_PASS
+    } CameraEvent;
+
+
     Camera(const GameObject& gameObject, int width, int height);
     ~Camera();
 
