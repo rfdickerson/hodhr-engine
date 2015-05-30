@@ -128,26 +128,26 @@ GameObject* GameObject::createPrimitive(PrimitiveType type)
        mesh->uvs.push_back(glm::vec2(1,1));
 
        mesh->colors.push_back(Color::Red());
-       mesh->colors.push_back(Color::Green());
-       mesh->colors.push_back(Color::Blue());
-       mesh->colors.push_back(Color::Pink());
-
-
        mesh->colors.push_back(Color::Red());
-       mesh->colors.push_back(Color::Green());
-       mesh->colors.push_back(Color::Blue());
-       mesh->colors.push_back(Color::Pink());
-
-
        mesh->colors.push_back(Color::Red());
-       mesh->colors.push_back(Color::Green());
-       mesh->colors.push_back(Color::Blue());
-       mesh->colors.push_back(Color::Pink());
-
-
        mesh->colors.push_back(Color::Red());
+
+
        mesh->colors.push_back(Color::Green());
+       mesh->colors.push_back(Color::Green());
+       mesh->colors.push_back(Color::Green());
+       mesh->colors.push_back(Color::Green());
+
+
        mesh->colors.push_back(Color::Blue());
+       mesh->colors.push_back(Color::Blue());
+       mesh->colors.push_back(Color::Blue());
+       mesh->colors.push_back(Color::Blue());
+
+
+       mesh->colors.push_back(Color::Pink());
+       mesh->colors.push_back(Color::Pink());
+       mesh->colors.push_back(Color::Pink());
        mesh->colors.push_back(Color::Pink());
 
 

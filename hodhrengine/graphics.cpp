@@ -148,7 +148,7 @@ void Graphics::drawMesh(const Mesh & mesh,
     glUniform3fv(lightLaLoc, 1, glm::value_ptr(lightLa));
 
     const GLint scaleFactorLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"ScaleFactor");
-    glUniform1f(scaleFactorLoc, 0.2f);
+    glUniform1f(scaleFactorLoc, 0.05f);
 
     checkErrors("Prepare to bind vertex array object.");
     glBindVertexArray(mesh.mVAO);
