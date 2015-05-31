@@ -35,20 +35,20 @@ public:
     virtual ~Texture();
 
     // Retrieve native (hardware) handle to texture. (read only)
-    int getNativeTextureID();
-
-    int anisoLevel;
-    FilterMode filterMode;
-
-    int height;
-    int width;
-    int depth;
-
-    TextureWrapMode wrapMode;
+    int nativeTextureID() const;
 
 protected:
 
-    unsigned int textureID;
+    unsigned int mNativeTextureID;
+
+    int mAnisoLevel;
+    FilterMode mFilterMode;
+
+    int mHeight;
+    int mWidth;
+    int mDepth;
+
+    TextureWrapMode wrapMode;
 
 };
 

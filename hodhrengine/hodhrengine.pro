@@ -39,7 +39,9 @@ SOURCES +=  debug.cpp  \
     meshfilter.cpp \
     scene.cpp \
     light.cpp \
-    consoledebug.cpp
+    consoledebug.cpp \
+    commandbuffer.cpp \
+    texture2d.cpp
 
 HEADERS  +=    debug.h \
     renderer.h \
@@ -66,7 +68,9 @@ HEADERS  +=    debug.h \
     scene.h \
     light.h \
     common.h \
-    consoledebug.h
+    consoledebug.h \
+    commandbuffer.h \
+    texture2d.h
 
 #FORMS    +=
 

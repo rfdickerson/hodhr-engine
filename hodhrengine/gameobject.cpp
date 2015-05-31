@@ -192,11 +192,11 @@ GameObject* GameObject::createPrimitive(PrimitiveType type)
    MeshRenderer *renderer = ret->GetComponent<MeshRenderer>();
    if (renderer)
    {
-       Material *newMaterial = new Material();
-       Shader *phongShader = Shader::Find("phong");
+       Material * newMaterial = new Material();
+       Shader * phongShader = Shader::Find("phong");
        newMaterial->setShader(phongShader);
 
-       renderer->material = newMaterial;
+       renderer->setMaterial(newMaterial);
    }
 
    return ret;

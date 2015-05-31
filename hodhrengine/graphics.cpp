@@ -20,8 +20,8 @@
 using namespace Hodhr;
 
 // define statics
-RenderBuffer* Graphics::activeColorBuffer;
-RenderBuffer* Graphics::activeDepthBuffer;
+RenderBuffer * Graphics::mActiveColorBuffer = NULL;
+RenderBuffer * Graphics::mActiveDepthBuffer = NULL;
 
 
 typedef struct  {
@@ -178,8 +178,8 @@ void Graphics::drawMesh(const Mesh & mesh,
 
 void Graphics::setRenderTarget(RenderTexture *rt)
 {
-    activeColorBuffer = &rt->colorBuffer;
-    activeDepthBuffer = &rt->depthBuffer;
+    mActiveColorBuffer = &rt->colorBuffer;
+    mActiveDepthBuffer = &rt->depthBuffer;
 }
 
 void Graphics::uploadMesh( Mesh* mesh )
@@ -307,4 +307,13 @@ void Graphics::checkErrors(const std::string & label)
         //Debug::log(label, e.c_str());
 
     }
+}
+
+void Graphics::blit(const Texture & source, const RenderTexture & dest)
+{
+    GLsizei halfWidth = (GLsizei) (dest.width / 2.0f);
+    GLsizei halfHeight = (GLsizei) (dest.height / 2.0f);
+
+    glBlitFramebuffer(0, 0, dest.width, dest.height, 0, 0, halfWidth, halfHeight,
+                      GL_COLOR_BUFFER_BIT, GL_LINEAR);
 }

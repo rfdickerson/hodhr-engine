@@ -8,6 +8,7 @@
 #include "material.h"
 #include "rect.h"
 #include "camera.h"
+#include "commandbuffer.h"
 
 #define GLEW_STATIC
 #include "GL/glew.h"
@@ -23,17 +24,17 @@ public:
     Graphics();
     ~Graphics();
 
-    static RenderBuffer *activeColorBuffer;
-    static RenderBuffer *activeDepthBuffer;
+    static RenderBuffer * activeColorBuffer();
+    static RenderBuffer * activeDepthBuffer();
 
-    static void blit(Texture *source, Texture *dest);
+    static void blit(const Texture & source, const RenderTexture & dest);
+    static void blit(const Texture & source, const RenderTexture & dest,
+                     const Material & mat,
+                     int pass=-1);
+    static void blit(const Texture & source,
+                     const Material & mat,
+                     int pass=-1);
 
-    /**
-     * @brief drawMesh
-     * @param mesh The Mesh to draw.
-     * @param position Position of the mesh.
-     * @param rotation Rotation of the mesh.
-     */
     static void drawMesh(const Mesh & mesh,
                          const glm::vec3 & position,
                          const glm::quat & rotation,
@@ -50,12 +51,18 @@ public:
 
     static void removeMesh( Mesh *mesh );
 
-
     static void drawTexture(const Rect& screenRect, const Texture& texture, const Material& mat);
 
     static void setRenderTarget(RenderTexture *rt);
 
     static void checkErrors(const std::string & label);
+
+    static void executeCommandBuffer(const Rendering::CommandBuffer & buffer);
+
+private:
+
+    static RenderBuffer *mActiveColorBuffer;
+    static RenderBuffer *mActiveDepthBuffer;
 
 };
 
