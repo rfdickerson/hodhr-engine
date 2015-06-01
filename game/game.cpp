@@ -135,6 +135,8 @@ void Game::init()
     scene->AddGameObject(plane);
 
 
+    cubeTexture = new Texture2D(128,128);
+
 
     camera->transform().translate(5.0f,0.0f,0.0f);
     Hodhr::Camera::current()->transform().lookAt(*plane->transform(), glm::vec3(0,1,0));

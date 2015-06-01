@@ -41,14 +41,14 @@ protected:
 
     unsigned int mNativeTextureID;
 
-    int mAnisoLevel;
+    int m_anisoLevel;
     FilterMode mFilterMode;
 
-    int mHeight;
-    int mWidth;
-    int mDepth;
+    int m_height;
+    int m_width;
+    int m_depth;
 
-    TextureWrapMode wrapMode;
+    TextureWrapMode m_wrapMode;
 
 };
 

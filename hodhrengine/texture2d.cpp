@@ -1,15 +1,50 @@
 #include "texture2d.h"
 
+#include "debug.h"
+
 using namespace Hodhr;
+
+
 
 Texture2D::Texture2D(int w, int h)
 {
 
-    mWidth = w;
-    mHeight = h;
+    m_width = w;
+    m_height = h;
+
+    Debug::log("Texture", "Added a texture");
 }
 
+/**
+* Create a new empty texture.
+*
+* The texture will be width by height size, with a given
+* format, with mipmaps or without and in either the linear
+* or sRGB space.
+ */
+Texture2D::Texture2D(int w, int h,
+          TextureFormat format, bool mipmap, bool linear)
+    : m_format(format), m_mipmap(mipmap), m_linear(linear)
+{
+    m_width = w;
+    m_height = h;
+}
+
+
+Texture2D::~Texture2D()
+{
+
+
+}
+
+
+
 Texture2D Texture2D::blackTexture()
+{
+    return Texture2D(128,128);
+}
+
+Texture2D Texture2D::whiteTexture()
 {
     return Texture2D(128,128);
 }
@@ -61,6 +96,35 @@ void Texture2D::compress(bool highQuality)
  * @param data
  */
 void Texture2D::loadRawTextureData(char * data)
+{
+
+}
+
+/**
+ * Sets pixel color at coordinates (x,y).
+ *
+ * Call apply to actually upload the changed pixels to the graphics
+ * card. Uploading is an expensive operation, so you'll want to change as many
+ * pixels as possible between Apply calls.
+ */
+void Texture2D::setPixel(int x, int y, Color color)
+{
+
+}
+
+/**
+* Updates Texture to use different native texture object.
+*
+* Native texture object is a pointer to the base type, from
+* which a texture can be created.
+ */
+void Texture2D::updateExternalTexture(int nativeTex)
+{
+
+}
+
+
+void Texture2D::setPixels(std::vector<Color> colors, int miplevel)
 {
 
 }

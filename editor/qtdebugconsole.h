@@ -5,7 +5,7 @@
 
 class QTextEdit;
 
-class QtDebugConsole : public Debug
+class QtDebugConsole : public Hodhr::Debug
 {
 public:
     QtDebugConsole();

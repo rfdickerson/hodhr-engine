@@ -209,6 +209,12 @@ std::vector<GameObject*> GameObject::findGameObjectsWithTag(const std::string& t
 }
 
 
-Transform * GameObject::transform() const {
+Transform * GameObject::transform() const
+{
     return mTransform;
+}
+
+std::vector<Component * > GameObject::getComponents() const
+{
+    return mComponents;
 }
