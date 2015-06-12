@@ -39,7 +39,7 @@ public:
 
 protected:
 
-    unsigned int mNativeTextureID;
+    unsigned int m_nativeTextureID;
 
     int m_anisoLevel;
     FilterMode mFilterMode;

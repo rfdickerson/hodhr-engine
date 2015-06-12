@@ -35,10 +35,17 @@ public:
         }
     }
 
-    static void log(const std::string &mesg, const Object& context)
+    static void log(const std::string &mesg, Object * context)
     {
         if (getInstance() != NULL) {
-            getInstance()->addLog(context.toString(), mesg);
+
+            std::string ctxString = "";
+
+            if (context != NULL ) {
+                ctxString = context->toString();
+            }
+
+            getInstance()->addLog(ctxString, mesg);
         }
     }
 

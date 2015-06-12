@@ -7,6 +7,9 @@
 #include <utility>
 #include <cerrno>
 
+#include <OpenImageIO/imageio.h>
+OIIO_NAMESPACE_USING
+
 using namespace Hodhr;
 
 Object* Resources::Load(const std::string& path)
@@ -49,4 +52,34 @@ Shader* Resources::LoadShader(const std::string& path)
 Mesh* Resources::LoadMesh(const std::string& path)
 {
     return NULL;
+}
+
+Texture2D * Resources::LoadTexture(const std::string & path)
+{
+
+    ImageInput *in = ImageInput::open( path );
+     //ImageInput *in = ImageInput::open( path );
+     if (! in )
+         return NULL;
+     const ImageSpec &spec = in->spec();
+     int xres = spec.width;
+     int yres = spec.height;
+     int channels = spec.nchannels;
+     std::vector<unsigned char> pixels (xres*yres*channels);
+
+
+     in->read_image( TypeDesc::UINT8, &pixels[0]);
+     in->close ();
+
+     Texture2D * newTexture = new Texture2D(xres, yres);
+
+     char out[80];
+     sprintf(out, "Created new texture of size %dx%d with %d channels.", xres, yres, channels);
+     Debug::log(out, NULL);
+
+     newTexture->loadRawTextureData(pixels);
+     newTexture->apply();
+
+
+    return newTexture;
 }

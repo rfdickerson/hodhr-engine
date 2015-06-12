@@ -2,17 +2,25 @@
 
 #include "debug.h"
 
+#include <OpenImageIO/imageio.h>
+
 using namespace Hodhr;
 
-
+OIIO_NAMESPACE_USING
 
 Texture2D::Texture2D(int w, int h)
 {
 
     m_width = w;
     m_height = h;
+    this->name = "Unnamed texture";
 
-    Debug::log("Texture", "Added a texture");
+    glGenTextures(1, &m_nativeTextureID);
+
+    char out[80];
+    sprintf(out, "New texture has hardware ID: %d", m_nativeTextureID);
+
+    Debug::log(out, this);
 }
 
 /**
@@ -34,6 +42,9 @@ Texture2D::Texture2D(int w, int h,
 Texture2D::~Texture2D()
 {
 
+    glDeleteTextures(1, &m_nativeTextureID);
+
+    Debug::log("Deleted a texture", this);
 
 }
 
@@ -95,8 +106,13 @@ void Texture2D::compress(bool highQuality)
  *
  * @param data
  */
-void Texture2D::loadRawTextureData(char * data)
+void Texture2D::loadRawTextureData(std::vector<unsigned char> data)
 {
+
+    long size = m_width*m_height*32;
+
+    // copy the data
+    m_rawTextureData = data;
 
 }
 
@@ -127,4 +143,37 @@ void Texture2D::updateExternalTexture(int nativeTex)
 void Texture2D::setPixels(std::vector<Color> colors, int miplevel)
 {
 
+}
+
+void Texture2D::apply()
+{
+    glBindTexture(GL_TEXTURE_2D, m_nativeTextureID);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+
+    glTexImage2D(GL_TEXTURE_2D,
+                   0,
+                   GL_RGBA8,
+                   m_width, m_height,
+                   0,
+                   GL_RGBA,
+                   GL_UNSIGNED_BYTE,
+                   &m_rawTextureData[0]);
+
+    /*
+    glTexStorage2D(GL_TEXTURE_2D, 3, GL_RGB, m_width, m_height);
+
+    glTexSubImage2D(GL_TEXTURE_2D,
+                    0,
+                    0,0,
+                    m_width, m_height,
+                    GL_RGB8, GL_UNSIGNED_BYTE,
+                    &m_rawTextureData[0]);
+                    */
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

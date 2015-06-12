@@ -34,6 +34,7 @@ public:
     MaterialPropertyBlock& getPropertyBlock() const;
     void setPropertyBlock(const MaterialPropertyBlock& propertyBlock);
 
+    // get the current material
     Material * material() const;
     void setMaterial(Material *);
 

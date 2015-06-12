@@ -12,6 +12,7 @@
 #include "material.h"
 #include "graphics.h"
 #include "consoledebug.h"
+#include "meshrenderer.h"
 
 const char * PROGRAM_NAME = "Hodhr Player";
 const int HEIGHT = 720;
@@ -114,7 +115,7 @@ void Game::init()
     Hodhr::Camera *camera = new Hodhr::Camera(*cameraGameObject, WIDTH, HEIGHT);
     Hodhr::Camera::setCurrent( camera );
     camera->resetProjectionMatrix();
-    camera->transform().translate(1.0f,0.0f,0.0f);
+    camera->transform().translate(7.0f,0.0f,0.0f);
 
     scene->AddGameObject(cameraGameObject);
 
@@ -128,24 +129,25 @@ void Game::init()
     Shader * phongShader = Resources::LoadShader("../../Hodhr/resources/shaders/phong.sdr");
     phongShader->compile();
 
-    Material *mat = new Material();
-    mat->setShader( phongShader );
+    cubeMaterial = new Material();
+    cubeMaterial->setShader( phongShader );
 
-    plane = GameObject::createPrimitive(GAMEOBJECT_CUBE);
-    scene->AddGameObject(plane);
+    cubeObject = GameObject::createPrimitive(GAMEOBJECT_CUBE);
+    scene->AddGameObject(cubeObject);
 
+    cubeTexture = Resources::LoadTexture("../../Hodhr/resources/images/grass.dds");
 
-    cubeTexture = new Texture2D(128,128);
+    cubeMaterial->setMainTexture(cubeTexture);
 
+    MeshRenderer *renderer = cubeObject->GetComponent<MeshRenderer>();
+    renderer->setMaterial(cubeMaterial);
 
     camera->transform().translate(5.0f,0.0f,0.0f);
-    Hodhr::Camera::current()->transform().lookAt(*plane->transform(), glm::vec3(0,1,0));
+    Hodhr::Camera::current()->transform().lookAt(*cubeObject->transform(), glm::vec3(0,1,0));
 
     Scene::SetCurrent(scene);
 
      //SDL_Delay( 2000 );
-
-
 }
 
 void Game::run()
@@ -186,19 +188,32 @@ void Game::run()
 
                    //camera->transform().rotate(0.1, event.motion.xrel, event.motion.yrel);
                    glm::vec3 offset(event.motion.yrel, 0, event.motion.xrel);
-                   offset *= dt;
-                   offset *= 0.02;
-                   plane->transform()->rotate(offset, SPACE_SELF);
-                   //camera->transform().rotate(offset, SPACE_SELF);
-                   //camera->resetProjectionMatrix();
+                   // offset *= dt;
+                   offset *= 0.005;
+                   cubeObject->transform()->rotate(offset, SPACE_SELF);
+                   // camera->transform().rotate(offset, SPACE_SELF);
+                   // camera->resetProjectionMatrix();
 
-                   char out [80];
-                   sprintf(out, "Camera direction: %f, %f, %f",
+                   // char out [80];
+
+                   /* sprintf(out, "Camera direction: %f, %f, %f",
                            camera->transform().direction()[0],
                            camera->transform().direction()[1],
                            camera->transform().direction()[2]);
+                           */
 
-                   // Debug::getInstance()->addLog("Camera", out);
+                   /**
+                   sprintf(out, "Plane rotation is: %f, %f, %f",
+                           plane->transform()->rotation().x,
+                           plane->transform()->rotation().y,
+                           plane->transform()->rotation().z
+                           );
+
+                   Debug::getInstance()->addLog("Camera", out);
+
+                   sprintf(out, "Offset is now %f, dt: %f", offset.x, dt);
+                   Debug::getInstance()->addLog("Mouse", out);
+                   **/
 
                }
 
@@ -265,6 +280,10 @@ void Game::run()
 
 void Game::cleanup()
 {
+
+    delete cubeObject;
+    delete cubeTexture;
+    delete cubeMaterial;
 
     SDL_GL_DeleteContext(maincontext);
     SDL_DestroyWindow( mainwindow );

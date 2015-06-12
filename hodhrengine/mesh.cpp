@@ -1,6 +1,8 @@
 #include "object.h"
 #include "mesh.h"
 
+#include "debug.h"
+
 using namespace Hodhr;
 
 Mesh::Mesh()
@@ -10,6 +12,8 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
+    Debug::log("Deleted the mesh", this);
+    glDeleteVertexArrays(1, &mVAO);
 
 }
 

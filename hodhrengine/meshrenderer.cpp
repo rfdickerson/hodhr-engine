@@ -8,9 +8,9 @@ using namespace Hodhr;
 MeshRenderer::MeshRenderer(const GameObject& gameObject)
     : Renderer(gameObject)
 {
-     if (Debug::getInstance()) {
-        Debug::getInstance()->addLog("Components", "Added the Mesh renderer component");
-     }
+
+    Debug::log("Added the Mesh renderer component", this);
+
 
     //mTag = "Mesh Renderer";
 }

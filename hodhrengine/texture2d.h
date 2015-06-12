@@ -24,7 +24,7 @@ public:
 
     void compress(bool highQuality);
 
-    void loadRawTextureData(char * data);
+    void loadRawTextureData(std::vector<unsigned char> data);
 
     int mipmapCount() const;
 
@@ -34,6 +34,8 @@ public:
 
     void updateExternalTexture(int nativeTex);
 
+    void apply();
+
 
 private:
     int m_mipmapCount;
@@ -41,6 +43,7 @@ private:
     bool m_mipmap;
     bool m_linear;
 
+    std::vector<unsigned char> m_rawTextureData;
 
 
 };

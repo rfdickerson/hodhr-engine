@@ -4,6 +4,7 @@
 #include "object.h"
 #include "shader.h"
 #include "mesh.h"
+#include "texture2d.h"
 
 #include <string>
 
@@ -20,6 +21,8 @@ namespace Hodhr {
         static Shader* LoadShader(const std::string& path);
 
         static Mesh* LoadMesh(const std::string& path);
+
+        static Texture2D * LoadTexture(const std::string & path);
     };
 
 }

@@ -15,6 +15,6 @@ Texture::~Texture()
 
 int Texture::nativeTextureID() const
 {
-    return mNativeTextureID;
+    return m_nativeTextureID;
 }
 

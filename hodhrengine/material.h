@@ -3,6 +3,7 @@
 
 #include "color.h"
 #include "texture.h"
+#include "texture2d.h"
 #include "shader.h"
 #include "materialpropertyblock.h"
 
@@ -20,6 +21,10 @@ class Material
 public:
     Material();
     ~Material();
+
+    void setMainTexture( Texture2D * texture);
+
+    Texture2D * mainTexture() const;
 
     void setShader(const std::string name, const Shader* shader);
 
@@ -53,7 +58,7 @@ private:
 
     Color mColor;
 
-    Texture * mMainTexture;
+    Texture2D * mMainTexture;
 
     MaterialPropertyBlock * mMaterialProperties;
 

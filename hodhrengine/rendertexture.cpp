@@ -59,7 +59,7 @@ bool RenderTexture::create()
 void RenderTexture::release()
 {
     glDeleteTextures(5, textures);
-    glDeleteTextures(1, &mNativeTextureID);
+    glDeleteTextures(1, &m_nativeTextureID);
 
     glDeleteFramebuffers(1, &fbo);
 }
