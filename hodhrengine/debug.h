@@ -3,6 +3,10 @@
 
 #include <string>
 
+#include "object.h"
+
+namespace Hodhr {
+
 class Debug
 {
 public:
@@ -31,6 +35,20 @@ public:
         }
     }
 
+    static void log(const std::string &mesg, Object * context)
+    {
+        if (getInstance() != NULL) {
+
+            std::string ctxString = "";
+
+            if (context != NULL ) {
+                ctxString = context->toString();
+            }
+
+            getInstance()->addLog(ctxString, mesg);
+        }
+    }
+
     static void log(const std::string & type, const std::string & mesg)
     {
         if (getInstance() != NULL) {
@@ -40,5 +58,7 @@ public:
 
     //static void setLogBuffer(const QTextEdit & editText);
 };
+
+}
 
 #endif // DEBUG_H

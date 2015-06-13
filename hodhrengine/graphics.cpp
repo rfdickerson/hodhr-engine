@@ -20,8 +20,8 @@
 using namespace Hodhr;
 
 // define statics
-RenderBuffer* Graphics::activeColorBuffer;
-RenderBuffer* Graphics::activeDepthBuffer;
+RenderBuffer * Graphics::mActiveColorBuffer = NULL;
+RenderBuffer * Graphics::mActiveDepthBuffer = NULL;
 
 
 typedef struct  {
@@ -150,16 +150,26 @@ void Graphics::drawMesh(const Mesh & mesh,
     const GLint scaleFactorLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"ScaleFactor");
     glUniform1f(scaleFactorLoc, 0.05f);
 
+    const GLint textureLocation = glGetUniformLocation(mat.shader()->GetProgramID(),"diffuseTex");
+
+    // bind textures
+    if (mat.mainTexture() != NULL) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, mat.mainTexture()->nativeTextureID());
+        glUniform1i(textureLocation, 0);
+    }
+
+
     checkErrors("Prepare to bind vertex array object.");
     glBindVertexArray(mesh.mVAO);
     checkErrors("Binded the vertex array object");
 
     glEnableVertexAttribArray(0);
-
     glEnableVertexAttribArray(1);
-    // glEnableVertexAttribArray(2);
-    // glEnableVertexAttribArray(3);
-    // glEnableVertexAttribArray(4);
+    glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(3);
+    glEnableVertexAttribArray(4);
+    glEnableVertexAttribArray(5);
 
 
     // glEnableVertexAttribArray(5);
@@ -168,6 +178,8 @@ void Graphics::drawMesh(const Mesh & mesh,
     glDrawElements(GL_TRIANGLES, mesh.triangles.size(), GL_UNSIGNED_SHORT, NULL);
 
     checkErrors("Draw elements.");
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     glBindVertexArray(0);
 
@@ -178,8 +190,8 @@ void Graphics::drawMesh(const Mesh & mesh,
 
 void Graphics::setRenderTarget(RenderTexture *rt)
 {
-    activeColorBuffer = &rt->colorBuffer;
-    activeDepthBuffer = &rt->depthBuffer;
+    mActiveColorBuffer = &rt->colorBuffer;
+    mActiveDepthBuffer = &rt->depthBuffer;
 }
 
 void Graphics::uploadMesh( Mesh* mesh )
@@ -211,8 +223,10 @@ void Graphics::uploadMesh( Mesh* mesh )
         hv.bx = mesh->bittangents[i].x;
         hv.by = mesh->bittangents[i].y;
         hv.bz = mesh->bittangents[i].z;
+
         hv.s = mesh->uvs[i].x;
         hv.t = mesh->uvs[i].y;
+
         hv.r = mesh->colors[i].red()*USHRT_MAX;
         hv.g = mesh->colors[i].green()*USHRT_MAX;
         hv.b = mesh->colors[i].blue()*USHRT_MAX;
@@ -307,4 +321,13 @@ void Graphics::checkErrors(const std::string & label)
         //Debug::log(label, e.c_str());
 
     }
+}
+
+void Graphics::blit(const Texture & source, const RenderTexture & dest)
+{
+    GLsizei halfWidth = (GLsizei) (dest.width / 2.0f);
+    GLsizei halfHeight = (GLsizei) (dest.height / 2.0f);
+
+    glBlitFramebuffer(0, 0, dest.width, dest.height, 0, 0, halfWidth, halfHeight,
+                      GL_COLOR_BUFFER_BIT, GL_LINEAR);
 }

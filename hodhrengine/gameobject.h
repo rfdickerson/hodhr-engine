@@ -27,20 +27,16 @@ namespace Hodhr {
         GameObject(const std::string& name);
         ~GameObject();
 
-        /**
-         * @brief Creates a game object with a primitive mesh renderer
-         * @param type
-         * @return
-         */
+        std::vector<Component * > getComponents() const;
+
+        Transform * transform() const;
+
+
+
         static GameObject* createPrimitive(PrimitiveType type);
 
         static std::vector<GameObject*> findGameObjectsWithTag(const std::string& tag);
 
-        /**
-         * @brief Adds a component named className to the game object.
-         * @param className
-         * @return
-         */
         template<class T>
         T* AddComponent()
         {
@@ -72,9 +68,9 @@ namespace Hodhr {
             return NULL;
         }
 
-        Transform * transform() const;
 
-    private:
+
+    protected:
 
         int layer;
 

@@ -25,8 +25,14 @@ public:
     int renderingHeight;
     int renderingWidth;
 
+    int systemHeight;
+    int systemWidth;
+
 
     void setRenderingResolution(int w, int h);
+
+
+    void activate();
 
 
 };

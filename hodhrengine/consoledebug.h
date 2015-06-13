@@ -3,6 +3,8 @@
 
 #include "debug.h"
 
+namespace Hodhr {
+
 class ConsoleDebug : public Debug
 {
 public:
@@ -11,5 +13,7 @@ public:
 
      virtual void addLog(const std::string & type, const std::string & mesg );
 };
+
+}
 
 #endif // CONSOLEDEBUG_H

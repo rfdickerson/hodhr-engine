@@ -68,7 +68,7 @@ Window::Window(MainWindow *mw)
        setWindowTitle(tr("Hello GL"));
 
        QtDebugConsole * dbgConsole = new QtDebugConsole();
-       Debug::setInstance(dbgConsole);
+       Hodhr::Debug::setInstance(dbgConsole);
 
        // Debug::setLogBuffer(*debugText);
 

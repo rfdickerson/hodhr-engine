@@ -39,7 +39,9 @@ SOURCES +=  debug.cpp  \
     meshfilter.cpp \
     scene.cpp \
     light.cpp \
-    consoledebug.cpp
+    consoledebug.cpp \
+    commandbuffer.cpp \
+    texture2d.cpp
 
 HEADERS  +=    debug.h \
     renderer.h \
@@ -66,15 +68,18 @@ HEADERS  +=    debug.h \
     scene.h \
     light.h \
     common.h \
-    consoledebug.h
+    consoledebug.h \
+    commandbuffer.h \
+    texture2d.h
 
 #FORMS    +=
 
-unix:INCLUDEPATH += /usr/include/
+INCLUDEPATH += /usr/include/
 win32:INCLUDEPATH += e:\developmentlibs\glew-1.12.0\include\
 win32:INCLUDEPATH += e:\developmentlibs\glm\
 
-LIBS += -L/usr/lib -lGLEW -lglut -lGLU
+LIBS += -L/usr/lib -lGLEW -lglut -lGLU -lOpenImageIO \
+    -lHalf -lOpenColorIO -lboost_system -lOpenEXR -ltiff -ljpeg -lz -lrt
 
 
 

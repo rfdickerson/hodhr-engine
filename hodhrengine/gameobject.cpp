@@ -123,9 +123,34 @@ GameObject* GameObject::createPrimitive(PrimitiveType type)
        mesh->normals.push_back(glm::vec3(0,0,-1));
 
        mesh->uvs.push_back(glm::vec2(0,0));
-       mesh->uvs.push_back(glm::vec2(0,1));
-       mesh->uvs.push_back(glm::vec2(1,0));
-       mesh->uvs.push_back(glm::vec2(1,1));
+       mesh->uvs.push_back(glm::vec2(0,USHRT_MAX));
+       mesh->uvs.push_back(glm::vec2(USHRT_MAX,0));
+       mesh->uvs.push_back(glm::vec2(USHRT_MAX,USHRT_MAX));
+
+       mesh->uvs.push_back(glm::vec2(0,0));
+       mesh->uvs.push_back(glm::vec2(0,USHRT_MAX));
+       mesh->uvs.push_back(glm::vec2(USHRT_MAX,0));
+       mesh->uvs.push_back(glm::vec2(USHRT_MAX,USHRT_MAX));
+
+       mesh->uvs.push_back(glm::vec2(0,0));
+       mesh->uvs.push_back(glm::vec2(0,USHRT_MAX));
+       mesh->uvs.push_back(glm::vec2(USHRT_MAX,0));
+       mesh->uvs.push_back(glm::vec2(USHRT_MAX,USHRT_MAX));
+
+       mesh->uvs.push_back(glm::vec2(0,0));
+       mesh->uvs.push_back(glm::vec2(0,1.0f));
+       mesh->uvs.push_back(glm::vec2(1.0f,0));
+       mesh->uvs.push_back(glm::vec2(1.0f,1.0f));
+
+       mesh->uvs.push_back(glm::vec2(0,0));
+       mesh->uvs.push_back(glm::vec2(0,1.0f));
+       mesh->uvs.push_back(glm::vec2(1.0f,0));
+       mesh->uvs.push_back(glm::vec2(1.0f,1.0f));
+
+       mesh->uvs.push_back(glm::vec2(0,0));
+       mesh->uvs.push_back(glm::vec2(0,1.0f));
+       mesh->uvs.push_back(glm::vec2(1.0f,0));
+       mesh->uvs.push_back(glm::vec2(1.0f,1.0f));
 
        mesh->colors.push_back(Color::Red());
        mesh->colors.push_back(Color::Red());
@@ -192,11 +217,11 @@ GameObject* GameObject::createPrimitive(PrimitiveType type)
    MeshRenderer *renderer = ret->GetComponent<MeshRenderer>();
    if (renderer)
    {
-       Material *newMaterial = new Material();
-       Shader *phongShader = Shader::Find("phong");
-       newMaterial->setShader(phongShader);
+       //Material * newMaterial = new Material();
+       //Shader * phongShader = Shader::Find("phong");
+       //newMaterial->setShader(phongShader);
 
-       renderer->material = newMaterial;
+       //renderer->setMaterial(newMaterial);
    }
 
    return ret;
@@ -209,6 +234,12 @@ std::vector<GameObject*> GameObject::findGameObjectsWithTag(const std::string& t
 }
 
 
-Transform * GameObject::transform() const {
+Transform * GameObject::transform() const
+{
     return mTransform;
+}
+
+std::vector<Component * > GameObject::getComponents() const
+{
+    return mComponents;
 }

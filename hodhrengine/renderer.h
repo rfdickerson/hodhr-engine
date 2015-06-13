@@ -34,21 +34,22 @@ public:
     MaterialPropertyBlock& getPropertyBlock() const;
     void setPropertyBlock(const MaterialPropertyBlock& propertyBlock);
 
-    /**
-     * @brief Makes the rendered 3D object visible if enabled.
-     */
-    bool enabled;
+    // get the current material
+    Material * material() const;
+    void setMaterial(Material *);
 
-    /**
-     * @brief Returns the first instantiated Material assigned to the renderer.
-     */
-    Material *material;
+    bool enabled() const;
+    void setEnabled(bool);
+
+protected:
+
+
+    bool mEnabled;
+
+    Material * mMaterial;
 
     ShadowCastingMode shadowCastingMode;
 
-    /**
-     * @brief Does this object receive shadows?
-     */
     bool receiveShadows;
 
     glm::mat4 worldToLocalMatrix;

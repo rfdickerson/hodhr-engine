@@ -126,7 +126,7 @@ void Camera::render()
             continue;
         }
 
-        const Material *mat = renderer->material;
+        const Material *mat = renderer->material();
         MeshFilter *mf = (MeshFilter*) o->GetComponent<MeshFilter>();
         if (mf) {
             Graphics::drawMesh(*mf->mesh(),o->transform()->position(),

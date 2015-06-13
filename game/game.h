@@ -3,7 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include "gameobject.h"
-
+#include "texture2d.h"
+#include "material.h"
 
 
 class Game
@@ -19,7 +20,13 @@ private:
     SDL_Window* mainwindow = NULL;
     SDL_GLContext maincontext;
 
-    Hodhr::GameObject * plane;
+    Hodhr::GameObject * cubeObject;
+
+    Hodhr::Texture2D * cubeTexture;
+
+    Hodhr::Material * cubeMaterial;
+
+
 };
 
 #endif // GAME_H

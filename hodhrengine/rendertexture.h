@@ -40,52 +40,56 @@ public:
     // Releases the hardware resources used by the render texture.
     void release();
 
+    // Discards the contents of the RenderTexture.
     void discardContents();
 
-    void bindForWriting();
+    // Is the render texture actually created?
+    bool isCreated();
 
+    // added by me
+    void bindForWriting();
     void bindForReading();
 
-    static RenderTexture * getTemporary(int width, int height, int depthBuffer=0);
+    static RenderTexture * getTemporary(int width,
+                                        int height,
+                                        int depthBuffer=0,
+                                        RenderTextureFormat format=RenderFormatDefault,
+                                        RenderTextureReadWrite readWrite = RenderTextureRWDefault,
+                                        int antialiasing = 1);
 
-    static RenderTexture * active;
+    static void releaseTemporary(const RenderTexture & temp);
+
+    static RenderTexture * active();
+    static void setActive(RenderTexture * rt);
+
+    // precision of the render texture.
+    int depth;
 
     RenderBuffer colorBuffer;
 
-    /**
-     * @brief The precision of the render texture's depth buffer in bits (0, 16, 24 are supported).
-     */
-    int depth;
-
-    /**
-     * @brief Depth/stencil buffer of the render texture.
-     */
+    // Depth/stencil buffer of the render texture
     RenderBuffer depthBuffer;
 
-    /**
-     * @brief Does this render texture use sRGB read/write?
-     */
     bool sRGB;
 
-    /**
-     * @brief Use mipmaps on a render texture?
-     */
     bool useMipMap;
 
-    /**
-     * @brief The width of the render texture in pixels.
-     */
     int width;
 
-    /**
-     * @brief The height of the render texture in pixels.
-     */
     int height;
 
     RenderTextureFormat format;
     RenderTextureReadWrite readWrite;
 
 protected:
+
+    bool mCreated;
+
+    static RenderTexture * mActive;
+    static RenderBuffer * mActiveColorBuffer;
+    static RenderBuffer * mActiveDepthBuffer;
+
+    static
 
     std::vector<float> data;
 

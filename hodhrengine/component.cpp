@@ -6,7 +6,7 @@
 using namespace Hodhr;
 
 Component::Component(const GameObject& gameObject)
-    : gameObject(gameObject)
+    : mGameObject(gameObject)
 {
     //mTransform = new Transform();
 }
