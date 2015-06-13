@@ -37,6 +37,12 @@ public:
     // Retrieve native (hardware) handle to texture. (read only)
     int nativeTextureID() const;
 
+
+    void setDepth(int depth) {
+        m_depth = depth;
+    }
+
+
 protected:
 
     unsigned int m_nativeTextureID;

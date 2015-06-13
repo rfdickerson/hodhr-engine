@@ -28,6 +28,8 @@ public:
 
     int mipmapCount() const;
 
+    void setMipmapCount( int count );
+
     void setPixel(int x, int y, Color color);
 
     void setPixels(std::vector<Color> colors, int miplevel = 0);

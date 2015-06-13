@@ -2,6 +2,8 @@
 
 #include "debug.h"
 
+#include <vector>
+
 #include <OpenImageIO/imageio.h>
 
 using namespace Hodhr;
@@ -109,7 +111,7 @@ void Texture2D::compress(bool highQuality)
 void Texture2D::loadRawTextureData(std::vector<unsigned char> data)
 {
 
-    long size = m_width*m_height*32;
+    //long size = m_width*m_height*32;
 
     // copy the data
     m_rawTextureData = data;
@@ -147,6 +149,7 @@ void Texture2D::setPixels(std::vector<Color> colors, int miplevel)
 
 void Texture2D::apply()
 {
+    char out[80];
     glBindTexture(GL_TEXTURE_2D, m_nativeTextureID);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -154,7 +157,7 @@ void Texture2D::apply()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-
+    /*
     glTexImage2D(GL_TEXTURE_2D,
                    0,
                    GL_RGBA8,
@@ -163,17 +166,116 @@ void Texture2D::apply()
                    GL_RGBA,
                    GL_UNSIGNED_BYTE,
                    &m_rawTextureData[0]);
+                   */
+
+
+    int height = m_height;
+    int width = m_width;
+
+    int level;
+    long offset = 0;
+
+    float aniso = 0.0f;
+    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &aniso);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, aniso);
+
+
+    //sprintf(out, "Anistropic filtering at %f", aniso);
+    //Debug::log(out, this);
+
+    glTexStorage2D(GL_TEXTURE_2D, m_mipmapCount,
+                   GL_RGBA8, width, height);
 
     /*
-    glTexStorage2D(GL_TEXTURE_2D, 3, GL_RGB, m_width, m_height);
-
-    glTexSubImage2D(GL_TEXTURE_2D,
+    glTexImage2D(GL_TEXTURE_2D,
+                   0,
+                   GL_RGBA8,
+                    width, height,
                     0,
-                    0,0,
-                    m_width, m_height,
-                    GL_RGB8, GL_UNSIGNED_BYTE,
-                    &m_rawTextureData[0]);
-                    */
+                    GL_RGBA,
+                   GL_UNSIGNED_BYTE,
+                   &m_rawTextureData[0]);
+                   */
+
+    GLenum errCode;
+    const GLubyte *errString;
+    errCode = glGetError();
+    if (errCode  != GL_NO_ERROR)
+    {
+        errString = gluErrorString(errCode);
+        std::string e((char*)errString);
+
+        // Debug::log(e.c_str(), this);
+        sprintf(out, "glTexStorage2D returned: %s", e.c_str());
+        Debug::log(out, this);
+    }
+
+
+    for (level = 0; level < this->mipmapCount(); ++level) {
+
+        long size = width*height*m_depth;
+
+        // get subset of vector
+        std::vector<unsigned char>::const_iterator first = m_rawTextureData.begin() + offset;
+        std::vector<unsigned char>::const_iterator last = m_rawTextureData.begin() + offset + size;
+
+        std::vector<unsigned char> mipimage = std::vector<unsigned char>(first,last);
+
+
+
+
+        glTexSubImage2D(GL_TEXTURE_2D,
+                        level,
+                        0, 0,
+                        width, height,
+                        GL_RGBA, GL_UNSIGNED_BYTE,
+                        &mipimage[0]);
+
+        GLenum errCode;
+        const GLubyte *errString;
+        errCode = glGetError();
+        if (errCode  != GL_NO_ERROR)
+        {
+            errString = gluErrorString(errCode);
+            std::string e((char*)errString);
+
+            Debug::log(e.c_str(), this);
+        }
+
+        sprintf(out, "Added mipmap level %d begin %ld end %ld", level, offset, offset+size);
+        Debug::log(out, this);
+
+        sprintf(out, "Height: %d, Width: %d", height, width);
+        Debug::log(out, this);
+
+        sprintf(out, "The number of elements in mipmap is %d", mipimage.size());
+        Debug::log(out, this);
+
+        height /= 2;
+        width /= 2;
+
+
+
+        offset += size;
+
+    }
+
+
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 11);
+
 
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
+void Texture2D::setMipmapCount(int count)
+{
+    m_mipmapCount = count;
+}
+
+int Texture2D::mipmapCount() const
+{
+    return m_mipmapCount;
 }
