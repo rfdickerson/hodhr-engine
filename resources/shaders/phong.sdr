@@ -13,8 +13,13 @@ layout (location = 5) in vec3 VertexColor;
 
 out vec3 Position;
 out vec3 Normal;
+out vec3 Tangent;
+out vec3 BitTangent;
 out vec2 texCoords;
 out vec3 Color;
+
+out vec3 LightDirection_tangentspace;
+out vec3 EyeDirection_tangentspace;
 
 uniform mat4 ModelViewMatrix;
 uniform mat3 NormalMatrix;
@@ -38,12 +43,33 @@ const vec3 L20 = vec3( 0.871297, 0.875222, 0.864470);
 const vec3 L21 = vec3( 0.871297, 0.875222, 0.864470);
 const vec3 L22 = vec3( 0.871297, 0.875222, 0.864470);
 
+struct LightInfo {
+    vec4 Position;   // Light position in eye coords
+    vec3 La;	        // Ambient light intensity
+    vec3 Ld;         // Diffuse light intensity
+    vec3 Ls;	        // Specular light intensity
+};
+uniform LightInfo Light;
+
 out vec3 DiffuseColor;
 
 void main()
 {
 	Normal = normalize( NormalMatrix * VertexNormal);
+	Tangent = normalize( NormalMatrix * vec3(  vec4(VertexTangents,1.0))); 
+	BitTangent = vec3(NormalMatrix * vec3( vec4(VertexBittangents,1.0))); 
 	Position = vec3(ModelViewMatrix * vec4(VertexPosition,1.0));
+
+	mat3 TBN = transpose(mat3(
+		Tangent,
+		BitTangent,
+		Normal));
+
+
+	vec3 s = normalize( vec3(Light.Position) - Position);
+
+	LightDirection_tangentspace = TBN * s;
+	EyeDirection_tangentspace = TBN * vec3(1,0,0);
 
 	gl_Position = MVP * vec4(VertexPosition, 1.0);
 	texCoords = TextureCoords;
@@ -76,6 +102,10 @@ in vec2 texCoords;
 in vec3 DiffuseColor;
 in vec3 Color;
 
+in vec3 LightDirection_tangentspace;
+in vec3 EyeDirection_tangentspace;
+
+
 layout (location = 0) out vec4 FragColor;
 
 
@@ -96,27 +126,36 @@ struct MaterialInfo {
 uniform MaterialInfo Material;
 
 uniform sampler2D diffuseTex;
+uniform sampler2D normalTex;
 
 vec3 ads()
 {
+	vec3 textureNormal_tangentspace = normalize(texture2D( normalTex, texCoords).rgb*2.0 - 1.0);
+
+	float intensity = clamp(dot(LightDirection_tangentspace, textureNormal_tangentspace), 0,1);
+
    vec3 n = normalize( Normal );
    vec3 s = normalize( vec3(Light.Position) - Position);
    vec3 v = normalize( vec3(-Position));
    vec3 h = normalize( v + s);
 
    vec3 r = reflect( -s, n);
+	/*
    return Light.Ld *
         (Material.Ka +
          Material.Kd * max( dot(s, Normal), 0.0) +
          Material.Ks * pow( max( dot(h,n), 0.0), Material.Shininess));
+*/
+	// return Material.Kd * intensity;
+	return Material.Kd * clamp( dot( LightDirection_tangentspace, textureNormal_tangentspace), 0.0, 1.0);
 }
 
 void main() {
 
-	FragColor = vec4(Color,1.0);
+	//FragColor = vec4(Color,1.0);
    	FragColor += vec4(ads(), 1.0);
 
-	FragColor = texture(diffuseTex, texCoords);
+	FragColor *= texture(diffuseTex, texCoords);
 	//FragColor = vec4(texCoords, 1, 1); 
 
 	FragColor += vec4(DiffuseColor,1.0);

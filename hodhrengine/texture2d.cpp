@@ -175,9 +175,11 @@ void Texture2D::apply()
     int level;
     long offset = 0;
 
+    // set the anisotropic filter to the max.
     float aniso = 0.0f;
     glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &aniso);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, aniso);
+    m_anisoLevel = (int) aniso;
 
 
     //sprintf(out, "Anistropic filtering at %f", aniso);
@@ -243,13 +245,13 @@ void Texture2D::apply()
         }
 
         sprintf(out, "Added mipmap level %d begin %ld end %ld", level, offset, offset+size);
-        Debug::log(out, this);
+        //Debug::log(out, this);
 
         sprintf(out, "Height: %d, Width: %d", height, width);
-        Debug::log(out, this);
+        //Debug::log(out, this);
 
         sprintf(out, "The number of elements in mipmap is %d", mipimage.size());
-        Debug::log(out, this);
+        //Debug::log(out, this);
 
         height /= 2;
         width /= 2;
@@ -262,7 +264,7 @@ void Texture2D::apply()
 
 
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 11);
 
 

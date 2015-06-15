@@ -29,7 +29,7 @@ win32:INCLUDEPATH += e:\developmentlibs\glew-1.12.0\include\
 
 win32:INCLUDEPATH += e:\developmentlibs\glm\
 
-unix:LIBS += -L/usr/lib -lGLEW -lglut -lGLU -lOpenImageIO
+unix:LIBS += -L/usr/lib -lGLEW -lglut -lGLU -lOpenImageIO -lassimp
 
 INCLUDEPATH += ../hodhrengine
 LIBS += -L../hodhrengine -lhodhrengine

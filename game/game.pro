@@ -19,6 +19,6 @@ unix:INCLUDEPATH += /usr/include/
 win32:INCLUDEPATH += e:\developmentlibs\glew-1.12.0\include\
 win32:INCLUDEPATH += e:\developmentlibs\glm\
 
-LIBS += -L/usr/lib -lGLEW -lglut -lGL -lGLU -lSDL2 -lOpenImageIO
+LIBS += -L/usr/lib -lGLEW -lglut -lGL -lGLU -lSDL2 -lOpenImageIO -lassimp
 
 CONFIG += c++11

@@ -8,7 +8,14 @@
 #include <cerrno>
 
 #include <OpenImageIO/imageio.h>
+
 OIIO_NAMESPACE_USING
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+
 
 using namespace Hodhr;
 
@@ -49,10 +56,7 @@ Shader* Resources::LoadShader(const std::string& path)
 
 }
 
-Mesh* Resources::LoadMesh(const std::string& path)
-{
-    return NULL;
-}
+
 
 Texture2D * Resources::LoadTexture(const std::string & path)
 {
@@ -104,4 +108,86 @@ Texture2D * Resources::LoadTexture(const std::string & path)
 
 
     return newTexture;
+}
+
+
+// load obj object stuff
+
+
+
+Mesh* Resources::LoadMesh(const std::string& path)
+{
+    Assimp::Importer importer;
+    char out[80];
+
+    const aiScene* scene = importer.ReadFile( path,
+                                              aiProcess_GenSmoothNormals        |
+                                              aiProcess_CalcTangentSpace        |
+                                              aiProcess_Triangulate             |
+                                              aiProcess_JoinIdenticalVertices   |
+                                              aiProcess_SortByPType);
+
+    if (!scene)
+    {
+
+        sprintf(out, "Could not load the mesh file %s", path.c_str());
+        Debug::log(out, NULL);
+        return NULL;
+    }
+
+    sprintf(out, "Number of meshes is %d", scene->mNumMeshes);
+    Debug::log(out, NULL);
+
+    Mesh * newmesh = new Mesh();
+
+    int i;
+    for (i=0; i<scene->mNumMeshes;i++)
+    {
+
+        aiMesh * mesh = scene->mMeshes[i];
+
+        sprintf(out, "Number of texture coord channels is %d", mesh->mNumUVComponents[0]);
+        Debug::log(out, NULL);
+
+        int j;
+
+        // load vertices
+        for (j=0;j<mesh->mNumVertices;j++)
+        {
+            aiVector3D v = mesh->mVertices[j];
+            aiVector3D n = mesh->mNormals[j];
+            aiVector3D bt = mesh->mBitangents[j];
+            aiVector3D t = mesh->mTangents[j];
+            aiVector3D * texCoords = mesh->mTextureCoords[0];
+            aiVector3D tempTex = texCoords[j];
+
+            newmesh->vertices.push_back(glm::vec3(v.x, v.y, v.z));
+            newmesh->normals.push_back(glm::vec3(n.x, n.y, n.z));
+            newmesh->tangents.push_back(glm::vec3(t.x, t.y, t.z));
+            newmesh->bittangents.push_back(glm::vec3(bt.x, bt.y, bt.z));
+            newmesh->colors.push_back(Color::Blue());
+
+            if (texCoords) {
+                newmesh->uvs.push_back(glm::vec2(tempTex.x, tempTex.y));
+            }
+        }
+
+        // load indices
+        for (j=0;j<mesh->mNumFaces;j++)
+        {
+            aiFace f = mesh->mFaces[j];
+
+            int k;
+            for (k=0;k<f.mNumIndices;k++)
+            {
+                unsigned short indice = f.mIndices[k];
+                newmesh->triangles.push_back(indice);
+            }
+        }
+
+
+    }
+
+
+    return newmesh;
 }
