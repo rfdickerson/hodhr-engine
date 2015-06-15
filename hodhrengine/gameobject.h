@@ -31,7 +31,7 @@ namespace Hodhr {
 
         Transform * transform() const;
 
-
+        static GameObject* createFromFile(const std::string & path);
 
         static GameObject* createPrimitive(PrimitiveType type);
 

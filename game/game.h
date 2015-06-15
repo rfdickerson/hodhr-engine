@@ -5,6 +5,7 @@
 #include "gameobject.h"
 #include "texture2d.h"
 #include "material.h"
+#include "mesh.h"
 
 
 class Game
@@ -23,8 +24,11 @@ private:
     Hodhr::GameObject * cubeObject;
 
     Hodhr::Texture2D * cubeTexture;
+    Hodhr::Texture2D * cubeNormalTexture;
 
     Hodhr::Material * cubeMaterial;
+
+    Hodhr::GameObject * catObject;
 
 
 };

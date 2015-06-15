@@ -44,7 +44,9 @@ public:
 
     void setShader(Shader * shader);
 
-    void setTexture(const std::string propertyName, const Texture * texture);
+    void setTexture(const std::string propertyName, Texture * texture);
+
+    Texture * getTexture(const std::string propertyName) const;
 
     // getters
     Color color() const;
@@ -71,6 +73,8 @@ private:
     std::map<std::string, glm::vec4> mVectors;
 
     std::map<std::string, glm::mat4> mMatrices;
+
+    std::map<std::string, Texture *> m_textures;
 
 };
 

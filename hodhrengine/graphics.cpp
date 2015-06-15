@@ -121,11 +121,11 @@ void Graphics::drawMesh(const Mesh & mesh,
     const GLint normalMatrixLoc = glGetUniformLocation(mat.shader()->GetProgramID(),"NormalMatrix");
     glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, glm::value_ptr(normalMatrix) );
 
-    glm::vec3 lightPos(1,1,0);
+    glm::vec3 lightPos(5,5,0);
     glm::vec3 materialKa(.2,.2,.2);
     glm::vec3 materialKd(1,1,1);
     glm::vec3 materialKs(.2,.2,.2);
-    glm::vec3 lightLd(.2,.2,.2);
+    glm::vec3 lightLd(.1,.1,.1);
     glm::vec3 lightLa(.2,.2,.2);
 
 
@@ -151,12 +151,24 @@ void Graphics::drawMesh(const Mesh & mesh,
     glUniform1f(scaleFactorLoc, 0.05f);
 
     const GLint textureLocation = glGetUniformLocation(mat.shader()->GetProgramID(),"diffuseTex");
+    const GLint normalTexLocation = glGetUniformLocation(mat.shader()->GetProgramID(),"normalTex");
+
 
     // bind textures
     if (mat.mainTexture() != NULL) {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, mat.mainTexture()->nativeTextureID());
         glUniform1i(textureLocation, 0);
+
+    }
+
+    Texture2D * normalTexture = (Texture2D *) mat.getTexture("_normaltex");
+
+    if (normalTexture)
+    {
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, normalTexture->nativeTextureID());
+        glUniform1i(normalTexLocation, 1);
     }
 
 
@@ -201,7 +213,8 @@ void Graphics::uploadMesh( Mesh* mesh )
     GLuint vertexBuffer, indiceBuffer;
 
     // create and set the vertex buffers for the meshes.
-    mesh->recalculateTangents();
+    // TODO readd
+    // mesh->recalculateTangents();
 
     // HodhrVertex hvertices = new HodhrVertex[mesh->vertices.size()];
     std::vector<HodhrVertex> hvertices;
@@ -224,8 +237,8 @@ void Graphics::uploadMesh( Mesh* mesh )
         hv.by = mesh->bittangents[i].y;
         hv.bz = mesh->bittangents[i].z;
 
-        hv.s = mesh->uvs[i].x;
-        hv.t = mesh->uvs[i].y;
+        hv.s = round(mesh->uvs[i].x * USHRT_MAX);
+        hv.t = round(mesh->uvs[i].y * USHRT_MAX);
 
         hv.r = mesh->colors[i].red()*USHRT_MAX;
         hv.g = mesh->colors[i].green()*USHRT_MAX;
@@ -271,6 +284,7 @@ void Graphics::uploadMesh( Mesh* mesh )
     glEnableVertexAttribArray(4);
     glVertexAttribPointer(4, 2, GL_UNSIGNED_SHORT, GL_TRUE, sizeof(HodhrVertex), BUFFER_OFFSET(48));
 
+    // vertex colors
     glEnableVertexAttribArray(5);
     glVertexAttribPointer(5, 3, GL_UNSIGNED_SHORT, GL_TRUE, sizeof(HodhrVertex), BUFFER_OFFSET(52));
 

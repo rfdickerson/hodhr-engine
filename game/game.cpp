@@ -140,18 +140,23 @@ void Game::init()
     cubeMaterial = new Material();
     cubeMaterial->setShader( phongShader );
 
-    cubeObject = GameObject::createPrimitive(GAMEOBJECT_CUBE);
-    scene->AddGameObject(cubeObject);
+    //cubeObject = GameObject::createPrimitive(GAMEOBJECT_CUBE);
+    //scene->AddGameObject(cubeObject);
 
-    cubeTexture = Resources::LoadTexture("../../Hodhr/resources/images/cube2.dds");
+    cubeTexture = Resources::LoadTexture("../../Hodhr/resources/images/torusdiffuse.dds");
+    cubeNormalTexture = Resources::LoadTexture("../../Hodhr/resources/images/torus_n.dds");
 
     cubeMaterial->setMainTexture(cubeTexture);
+    cubeMaterial->setTexture("_normaltex", cubeNormalTexture);
 
-    MeshRenderer *renderer = cubeObject->GetComponent<MeshRenderer>();
+    catObject = GameObject::createFromFile("../../Hodhr/resources/models/torus.obj");
+    scene->AddGameObject(catObject);
+
+    MeshRenderer *renderer = catObject->GetComponent<MeshRenderer>();
     renderer->setMaterial(cubeMaterial);
 
     camera->transform().translate(5.0f,0.0f,0.0f);
-    Hodhr::Camera::current()->transform().lookAt(*cubeObject->transform(), glm::vec3(0,1,0));
+    Hodhr::Camera::current()->transform().lookAt(*catObject->transform(), glm::vec3(0,1,0));
 
     Scene::SetCurrent(scene);
 
@@ -198,7 +203,7 @@ void Game::run()
                    glm::vec3 offset(event.motion.yrel, 0, event.motion.xrel);
                    // offset *= dt;
                    offset *= 0.005;
-                   cubeObject->transform()->rotate(offset, SPACE_SELF);
+                   catObject->transform()->rotate(offset, SPACE_SELF);
                    // camera->transform().rotate(offset, SPACE_SELF);
                    // camera->resetProjectionMatrix();
 
@@ -289,7 +294,7 @@ void Game::run()
 void Game::cleanup()
 {
 
-    delete cubeObject;
+    delete catObject;
     delete cubeTexture;
     delete cubeMaterial;
 

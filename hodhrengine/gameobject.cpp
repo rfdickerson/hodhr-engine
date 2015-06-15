@@ -6,6 +6,7 @@
 #include "component.h"
 #include "debug.h"
 #include "graphics.h"
+#include "resources.h"
 
 #include <string>
 
@@ -242,4 +243,33 @@ Transform * GameObject::transform() const
 std::vector<Component * > GameObject::getComponents() const
 {
     return mComponents;
+}
+
+GameObject * GameObject::createFromFile(const std::string & path)
+{
+    GameObject *ret = new GameObject("Primitive");
+    ret->AddComponent<MeshRenderer>();
+    ret->AddComponent<MeshFilter>();
+
+    Mesh * mesh = Resources::LoadMesh(path);
+
+    if (!mesh)
+    {
+        return NULL;
+    }
+
+    Graphics::uploadMesh(mesh);
+
+    MeshFilter *mf = ret->GetComponent<MeshFilter>();
+    if (mf) {
+     mf->setMesh(mesh);
+    }
+
+    MeshRenderer *renderer = ret->GetComponent<MeshRenderer>();
+    if (renderer)
+    {
+
+    }
+
+    return ret;
 }
