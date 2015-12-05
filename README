@@ -1,5 +1,11 @@
-HodhrEngine
-Author: Robert F. Dickerson
+# HodhrEngine
 
-Requires:
-- Qt, GLEW, GLM
+## Features
+- [x] Vertex buffer objects
+- [x] Wavefront (OBJ) Loading
+- [x] Textures
+
+## Requires:
+- Qt
+- GLEW
+- GLM
