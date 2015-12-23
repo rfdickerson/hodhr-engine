@@ -34,7 +34,6 @@ SOURCES +=  debug.cpp  \
     shader.cpp \
     rect.cpp \
     resources.cpp \
-    glew.c \
     materialpropertyblock.cpp \
     meshfilter.cpp \
     scene.cpp \

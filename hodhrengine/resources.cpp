@@ -1,6 +1,7 @@
 #include "resources.h"
 #include "debug.h"
 
+#include <iostream>
 #include <cstring>
 #include <string>
 #include <fstream>
@@ -26,7 +27,8 @@ Object* Resources::Load(const std::string& path)
 
 std::string Resources::LoadFile(const std::string& filename)
   {
-    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    //std::ifstream in(filename, std::ios::in | std::ios::binary);
+    std::ifstream in(filename.c_str(), std::ios::in | std::ios::binary );
 
     if (in)
     {
