@@ -8,9 +8,9 @@
 #include <utility>
 #include <cerrno>
 
-#include <OpenImageIO/imageio.h>
+//#include <OpenImageIO/imageio.h>
 
-OIIO_NAMESPACE_USING
+//OIIO_NAMESPACE_USING
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -63,6 +63,7 @@ Shader* Resources::LoadShader(const std::string& path)
 Texture2D * Resources::LoadTexture(const std::string & path)
 {
 
+	/**
     ImageInput *in = ImageInput::open( path );
      //ImageInput *in = ImageInput::open( path );
      if (! in )
@@ -110,6 +111,9 @@ Texture2D * Resources::LoadTexture(const std::string & path)
 
 
     return newTexture;
+**/
+
+	return NULL;
 }
 
 

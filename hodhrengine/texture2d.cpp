@@ -4,11 +4,11 @@
 
 #include <vector>
 
-#include <OpenImageIO/imageio.h>
+// #include <OpenImageIO/imageio.h>
 
 using namespace Hodhr;
 
-OIIO_NAMESPACE_USING
+// OIIO_NAMESPACE_USING
 
 Texture2D::Texture2D(int w, int h)
 {
