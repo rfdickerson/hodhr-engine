@@ -2,18 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "scene.h"
-#include "gameobject.h"
-#include "camera.h"
-#include "light.h"
-#include "debug.h"
-#include "shader.h"
-#include "resources.h"
-#include "material.h"
-#include "graphics.h"
-#include "consoledebug.h"
-#include "meshrenderer.h"
-#include "vector3.h"
+#include <hodhr.h>
 
 const char * PROGRAM_NAME = "Hodhr Player";
 const int HEIGHT = 1080;
@@ -40,7 +29,7 @@ void Game::init()
   Vector3 vectorA (2.0, 5.0, 1.0);
   Vector3 vectorB = Vector3::back();
 
-    float dp = Vector3::dot(vectorA, vectorB);
+  float dp = Vector3::dot(vectorA, vectorB);
 
     printf("Dot product is %f\n", dp);
 
