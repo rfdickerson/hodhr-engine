@@ -5,8 +5,8 @@
 #include <hodhr.hpp>
 
 const char * PROGRAM_NAME = "Hodhr Player";
-const int HEIGHT = 1080;
-const int WIDTH = 1920;
+const int HEIGHT = 600;
+const int WIDTH = 800;
 const int FRAME_DELAY = 7;
 const float SPEED = 0.4f;
 
@@ -57,6 +57,7 @@ void Game::init()
 
   frame_target = 1.0f/((float)closest.refresh_rate)*1000;
 
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
@@ -91,7 +92,7 @@ void Game::init()
   SDL_GL_SetSwapInterval(0);
   SDL_SetRelativeMouseMode(SDL_TRUE);
 
-  // glewExperimental = GL_TRUE;
+  glewExperimental = GL_TRUE;
 
   GLenum result = glewInit();
   if (result != GLEW_OK) {
@@ -131,7 +132,7 @@ void Game::init()
   // light.transform.position =
   scene->AddGameObject(lightGameObject);
 
-  Shader * phongShader = Resources::LoadShader("/home/rfdickerson/personal-projects/hodhr-engine/resources/shaders/phong.sdr");
+  Shader * phongShader = Resources::LoadShader("../resources/shaders/phong.sdr");
   phongShader->compile();
 
   cubeMaterial = new Material();
@@ -140,13 +141,13 @@ void Game::init()
   //cubeObject = GameObject::createPrimitive(GAMEOBJECT_CUBE);
   //scene->AddGameObject(cubeObject);
 
-  cubeTexture = Resources::LoadTexture("/home/rfdickerson/personal-projects/hodhr-engine/resources/images/torusdiffuse.dds");
-  cubeNormalTexture = Resources::LoadTexture("/home/rfdickerson/personal-projects/hodhr-engine/resources/images/torus_n.dds");
+  cubeTexture = Resources::LoadTexture("../resources/images/torusdiffuse.dds");
+  cubeNormalTexture = Resources::LoadTexture("../resources/images/torus_n.dds");
 
   cubeMaterial->setMainTexture(cubeTexture);
   cubeMaterial->setTexture("_normaltex", cubeNormalTexture);
 
-  catObject = GameObject::createFromFile("/home/rfdickerson/personal-projects/hodhr-engine/resources/models/torus.obj");
+  catObject = GameObject::createFromFile("../resources/models/torus.obj");
   scene->AddGameObject(catObject);
 
   MeshRenderer *renderer = catObject->GetComponent<MeshRenderer>();
@@ -303,4 +304,3 @@ void Game::cleanup()
 
   SDL_Quit();
 }
-
