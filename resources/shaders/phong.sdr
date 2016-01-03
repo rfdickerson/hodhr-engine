@@ -1,6 +1,6 @@
 phong
 
-//vertex 
+//vertex
 
 #version 330 core
 
@@ -28,7 +28,7 @@ uniform mat4 MVP;
 uniform float ScaleFactor;
 
 const float C1 = 0.429043;
-const float C2 = 0.511664;	
+const float C2 = 0.511664;
 const float C3 = 0.743125;
 const float C4 = 0.886227;
 const float C5 = 0.247708;
@@ -56,8 +56,8 @@ out vec3 DiffuseColor;
 void main()
 {
 	Normal = normalize( NormalMatrix * VertexNormal);
-	Tangent = normalize( NormalMatrix * vec3(  vec4(VertexTangents,1.0))); 
-	BitTangent = vec3(NormalMatrix * vec3( vec4(VertexBittangents,1.0))); 
+	Tangent = normalize( NormalMatrix * vec3(  vec4(VertexTangents,1.0)));
+	BitTangent = vec3(NormalMatrix * vec3( vec4(VertexBittangents,1.0)));
 	Position = vec3(ModelViewMatrix * vec4(VertexPosition,1.0));
 
 	mat3 TBN = transpose(mat3(
@@ -88,7 +88,7 @@ void main()
 	DiffuseColor *= ScaleFactor;
 
 	Color = VertexColor;
-		     
+
 }
 
 
@@ -130,7 +130,7 @@ uniform sampler2D normalTex;
 
 vec3 ads()
 {
-	vec3 textureNormal_tangentspace = normalize(texture2D( normalTex, texCoords).rgb*2.0 - 1.0);
+	vec3 textureNormal_tangentspace = normalize(texture( normalTex, texCoords).rgb*2.0 - 1.0);
 
 	float intensity = clamp(dot(LightDirection_tangentspace, textureNormal_tangentspace), 0,1);
 
@@ -156,7 +156,7 @@ void main() {
    	FragColor += vec4(ads(), 1.0);
 
 	FragColor *= texture(diffuseTex, texCoords);
-	//FragColor = vec4(texCoords, 1, 1); 
+	//FragColor = vec4(texCoords, 1, 1);
 
 	FragColor += vec4(DiffuseColor,1.0);
 
@@ -165,4 +165,3 @@ void main() {
   // FragColor = vec4(1,0,0,1);
 
 }
-
