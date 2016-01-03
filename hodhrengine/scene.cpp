@@ -1,8 +1,8 @@
-#include "scene.h"
-#include "gameobject.h"
-#include "meshrenderer.h"
-#include "camera.h"
-#include "debug.h"
+#include "scene.hpp"
+#include "gameobject.hpp"
+#include "meshrenderer.hpp"
+#include "camera.hpp"
+#include "debug.hpp"
 
 #include <vector>
 

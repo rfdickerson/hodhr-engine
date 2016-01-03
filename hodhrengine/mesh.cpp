@@ -1,7 +1,7 @@
-#include "object.h"
-#include "mesh.h"
+#include "object.hpp"
+#include "mesh.hpp"
 
-#include "debug.h"
+#include "debug.hpp"
 
 using namespace Hodhr;
 

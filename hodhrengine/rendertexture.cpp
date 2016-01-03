@@ -1,4 +1,4 @@
-#include "rendertexture.h"
+#include "rendertexture.hpp"
 
 #define GLEW_STATIC
 #include "GL/glew.h"

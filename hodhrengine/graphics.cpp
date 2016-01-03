@@ -1,8 +1,8 @@
-#include "graphics.h"
-#include "rendertexture.h"
-#include "camera.h"
-#include "color.h"
-#include "debug.h"
+#include "graphics.hpp"
+#include "rendertexture.hpp"
+#include "camera.hpp"
+#include "color.hpp"
+#include "debug.hpp"
 
 
 #include <glm/gtc/matrix_transform.hpp>

@@ -2,7 +2,9 @@
 
 #include <glm/common.hpp>
 
-#include "common.h"
+#include "common.hpp"
+
+namespace Hodhr {
 
 /**
  * Vector3
@@ -57,3 +59,5 @@ protected:
   glm::vec3 _vector;
 
 };
+
+}

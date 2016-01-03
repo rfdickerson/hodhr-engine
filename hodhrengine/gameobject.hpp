@@ -1,7 +1,7 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include "object.h"
+#include "object.hpp"
 // #include "transform.h"
 // #include "component.h"
 

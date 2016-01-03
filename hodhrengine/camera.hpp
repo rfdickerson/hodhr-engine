@@ -1,8 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "behavior.h"
-#include "color.h"
+#include "behavior.hpp"
+#include "color.hpp"
 //#include "rendertexture.h"
 
 #include <glm/glm.hpp>

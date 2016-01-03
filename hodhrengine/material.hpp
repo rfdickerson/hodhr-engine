@@ -1,11 +1,11 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "color.h"
-#include "texture.h"
-#include "texture2d.h"
-#include "shader.h"
-#include "materialpropertyblock.h"
+#include "color.hpp"
+#include "texture.hpp"
+#include "texture2d.hpp"
+#include "shader.hpp"
+#include "materialpropertyblock.hpp"
 
 namespace Hodhr {
 

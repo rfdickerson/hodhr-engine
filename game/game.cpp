@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#include <hodhr.h>
+#include <hodhr.hpp>
 
 const char * PROGRAM_NAME = "Hodhr Player";
 const int HEIGHT = 1080;

@@ -1,8 +1,8 @@
 #ifndef RENDERTEXTURE_H
 #define RENDERTEXTURE_H
 
-#include "texture.h"
-#include "renderbuffer.h"
+#include "texture.hpp"
+#include "renderbuffer.hpp"
 
 namespace Hodhr {
 

@@ -1,5 +1,5 @@
-#include "light.h"
-#include "behavior.h"
+#include "light.hpp"
+#include "behavior.hpp"
 
 using namespace Hodhr;
 

@@ -1,8 +1,8 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "behavior.h"
-#include "color.h"
+#include "behavior.hpp"
+#include "color.hpp"
 
 namespace Hodhr {
 

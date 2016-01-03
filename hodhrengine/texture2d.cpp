@@ -1,6 +1,6 @@
-#include "texture2d.h"
+#include "texture2d.hpp"
 
-#include "debug.h"
+#include "debug.hpp"
 
 #include <vector>
 

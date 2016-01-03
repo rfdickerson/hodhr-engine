@@ -1,6 +1,6 @@
-#include "material.h"
-#include "debug.h"
-#include "texture.h"
+#include "material.hpp"
+#include "debug.hpp"
+#include "texture.hpp"
 
 #include <map>
 

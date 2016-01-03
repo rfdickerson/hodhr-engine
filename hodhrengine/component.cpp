@@ -1,7 +1,7 @@
-#include "object.h"
-#include "component.h"
-#include "gameobject.h"
-#include "transform.h"
+#include "object.hpp"
+#include "component.hpp"
+#include "gameobject.hpp"
+#include "transform.hpp"
 
 using namespace Hodhr;
 

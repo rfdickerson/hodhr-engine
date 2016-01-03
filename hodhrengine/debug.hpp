@@ -3,7 +3,8 @@
 
 #include <string>
 
-#include "object.h"
+#include "common.hpp"
+#include "object.hpp"
 
 namespace Hodhr {
 

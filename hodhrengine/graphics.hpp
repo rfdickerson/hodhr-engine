@@ -1,14 +1,14 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include "renderbuffer.h"
-#include "texture.h"
-#include "mesh.h"
-#include "rendertexture.h"
-#include "material.h"
-#include "rect.h"
-#include "camera.h"
-#include "commandbuffer.h"
+#include "renderbuffer.hpp"
+#include "texture.hpp"
+#include "mesh.hpp"
+#include "rendertexture.hpp"
+#include "material.hpp"
+#include "rect.hpp"
+#include "camera.hpp"
+#include "commandbuffer.hpp"
 
 #define GLEW_STATIC
 #include "GL/glew.h"

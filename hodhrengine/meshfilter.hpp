@@ -1,8 +1,8 @@
 #ifndef MESHFILTER_H
 #define MESHFILTER_H
 
-#include "component.h"
-#include "mesh.h"
+#include "component.hpp"
+#include "mesh.hpp"
 
 namespace Hodhr {
 

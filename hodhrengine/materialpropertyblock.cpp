@@ -1,4 +1,4 @@
-#include "materialpropertyblock.h"
+#include "materialpropertyblock.hpp"
 
 using namespace Hodhr;
 

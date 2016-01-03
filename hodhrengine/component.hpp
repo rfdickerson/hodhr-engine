@@ -1,9 +1,9 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include "object.h"
-#include "transform.h"
-#include "gameobject.h"
+#include "object.hpp"
+#include "transform.hpp"
+#include "gameobject.hpp"
 
 #include <string>
 

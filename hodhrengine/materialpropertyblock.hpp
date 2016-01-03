@@ -1,8 +1,8 @@
 #ifndef MATERIALPROPERTYBLOCK_H
 #define MATERIALPROPERTYBLOCK_H
 
-#include "color.h"
-#include "texture.h"
+#include "color.hpp"
+#include "texture.hpp"
 
 #include <glm/glm.hpp>
 #include <string>

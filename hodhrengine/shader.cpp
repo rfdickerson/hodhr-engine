@@ -1,6 +1,6 @@
-#include "shader.h"
-#include "color.h"
-#include "debug.h"
+#include "shader.hpp"
+#include "color.hpp"
+#include "debug.hpp"
 
 #include <string>
 #include <map>

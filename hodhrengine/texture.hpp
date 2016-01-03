@@ -4,7 +4,7 @@
 #define GLEW_STATIC
 #include "GL/glew.h"
 
-#include "object.h"
+#include "object.hpp"
 
 namespace Hodhr {
 

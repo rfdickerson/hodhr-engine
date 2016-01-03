@@ -1,10 +1,10 @@
 #ifndef RESOURCES_H
 #define RESOURCES_H
 
-#include "object.h"
-#include "shader.h"
-#include "mesh.h"
-#include "texture2d.h"
+#include "object.hpp"
+#include "shader.hpp"
+#include "mesh.hpp"
+#include "texture2d.hpp"
 
 #include <string>
 

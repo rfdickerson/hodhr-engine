@@ -1,5 +1,5 @@
-#include "transform.h"
-#include "debug.h"
+#include "transform.hpp"
+#include "debug.hpp"
 
 // glm includes
 

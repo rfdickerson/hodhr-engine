@@ -1,12 +1,12 @@
-#include "object.h"
-#include "gameobject.h"
+#include "object.hpp"
+#include "gameobject.hpp"
 
-#include "meshrenderer.h"
-#include "meshfilter.h"
-#include "component.h"
-#include "debug.h"
-#include "graphics.h"
-#include "resources.h"
+#include "meshrenderer.hpp"
+#include "meshfilter.hpp"
+#include "component.hpp"
+#include "debug.hpp"
+#include "graphics.hpp"
+#include "resources.hpp"
 
 #include <string>
 

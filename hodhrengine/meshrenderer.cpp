@@ -1,7 +1,7 @@
-#include "meshrenderer.h"
-#include "debug.h"
-#include "gameobject.h"
-#include "graphics.h"
+#include "meshrenderer.hpp"
+#include "debug.hpp"
+#include "gameobject.hpp"
+#include "graphics.hpp"
 
 using namespace Hodhr;
 

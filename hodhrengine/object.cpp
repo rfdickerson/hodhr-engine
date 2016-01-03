@@ -1,5 +1,5 @@
-#include "object.h"
-#include "debug.h"
+#include "object.hpp"
+#include "debug.hpp"
 
 using namespace Hodhr;
 

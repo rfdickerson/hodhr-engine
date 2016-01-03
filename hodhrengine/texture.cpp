@@ -1,5 +1,5 @@
-#include "object.h"
-#include "texture.h"
+#include "object.hpp"
+#include "texture.hpp"
 
 using namespace Hodhr;
 

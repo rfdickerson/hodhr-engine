@@ -1,7 +1,7 @@
 #ifndef CONSOLEDEBUG_H
 #define CONSOLEDEBUG_H
 
-#include "debug.h"
+#include "debug.hpp"
 
 namespace Hodhr {
 

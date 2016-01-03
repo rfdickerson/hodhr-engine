@@ -1,7 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include "renderbuffer.h"
+#include "renderbuffer.hpp"
 
 #include <vector>
 

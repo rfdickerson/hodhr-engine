@@ -2,7 +2,7 @@
 #define RENDERER_H
 
 //#include "material.h"
-#include "component.h"
+#include "component.hpp"
 
 
 namespace Hodhr {

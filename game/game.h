@@ -2,10 +2,8 @@
 #define GAME_H
 
 #include <SDL2/SDL.h>
-#include "gameobject.h"
-#include "texture2d.h"
-#include "material.h"
-#include "mesh.h"
+
+#include "hodhr.hpp"
 
 
 class Game

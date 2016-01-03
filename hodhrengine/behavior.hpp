@@ -1,7 +1,7 @@
 #ifndef BEHAVIOR_H
 #define BEHAVIOR_H
 
-#include "component.h"
+#include "component.hpp"
 
 namespace Hodhr {
 

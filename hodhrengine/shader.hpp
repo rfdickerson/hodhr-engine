@@ -1,8 +1,8 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include "object.h"
-#include "color.h"
+#include "object.hpp"
+#include "color.hpp"
 
 #include <string>
 #include <map>

@@ -1,6 +1,6 @@
-#include "renderer.h"
-#include "component.h"
-#include "materialpropertyblock.h"
+#include "renderer.hpp"
+#include "component.hpp"
+#include "materialpropertyblock.hpp"
 
 using namespace Hodhr;
 

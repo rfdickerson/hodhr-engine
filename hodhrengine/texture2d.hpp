@@ -1,8 +1,8 @@
 #ifndef TEXTURE2D_H
 #define TEXTURE2D_H
 
-#include "texture.h"
-#include "color.h"
+#include "texture.hpp"
+#include "color.hpp"
 
 namespace Hodhr {
 

@@ -1,9 +1,9 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "common.h"
-#include "color.h"
-#include "object.h"
+#include "common.hpp"
+#include "color.hpp"
+#include "object.hpp"
 
 
 #include <glm/glm.hpp>

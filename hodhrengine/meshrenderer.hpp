@@ -1,7 +1,7 @@
 #ifndef MESHRENDERER_H
 #define MESHRENDERER_H
 
-#include "renderer.h"
+#include "renderer.hpp"
 
 namespace Hodhr {
 

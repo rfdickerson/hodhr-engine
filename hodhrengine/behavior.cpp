@@ -1,4 +1,4 @@
-#include "behavior.h"
+#include "behavior.hpp"
 
 using namespace Hodhr;
 

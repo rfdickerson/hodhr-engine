@@ -1,4 +1,4 @@
-#include "renderbuffer.h"
+#include "renderbuffer.hpp"
 
 using namespace Hodhr;
 

@@ -1,5 +1,5 @@
-#include "resources.h"
-#include "debug.h"
+#include "resources.hpp"
+#include "debug.hpp"
 
 #include <iostream>
 #include <cstring>
