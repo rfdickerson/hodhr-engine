@@ -8,6 +8,11 @@
 #include <utility>
 #include <cerrno>
 
+// OpenIL libraries
+#include <il.h>
+#include <ilu.h>
+#include <ilut.h>
+
 //#include <OpenImageIO/imageio.h>
 
 //OIIO_NAMESPACE_USING
@@ -63,6 +68,29 @@ Shader* Resources::LoadShader(const std::string& path)
 Texture2D * Resources::LoadTexture(const std::string & path)
 {
 
+  ilInit();
+  ilutRenderer(ILUT_OPENGL);
+
+  ilEnable(ILUT_OPENGL_CONV);
+
+  ILuint imageName;
+  ilGenImages(1, &imageName);
+
+  // Bind this image name.
+  ilBindImage(imageName);
+
+  // Loads the image specified by the filename
+  if (!ilLoadImage(path.c_str())) {
+    printf("Error loading the texture image\n");
+  }
+
+  int xres = ilGetInteger( IL_IMAGE_WIDTH);
+  int yres = ilGetInteger( IL_IMAGE_HEIGHT);
+
+  int numMipLevels = ilGetInteger( IL_NUM_MIPMAPS );
+
+  printf("Loading image %s as %d by %d with %d mipmaps\n", path.c_str(), xres, yres, numMipLevels);
+  
 	/**
     ImageInput *in = ImageInput::open( path );
      //ImageInput *in = ImageInput::open( path );

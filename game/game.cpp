@@ -9,6 +9,7 @@ const int HEIGHT = 600;
 const int WIDTH = 800;
 const int FRAME_DELAY = 7;
 const float SPEED = 0.4f;
+const bool FULLSCREEN = false;
 
 using namespace Hodhr;
 
@@ -80,6 +81,13 @@ void Game::init()
 				WIDTH, HEIGHT,
 				SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
+  if (FULLSCREEN) {
+    closest.w = 2560;
+    closest.h = 1440;
+    SDL_SetWindowFullscreen(mainwindow, SDL_WINDOW_FULLSCREEN);
+    SDL_SetWindowDisplayMode(mainwindow, &closest);
+  }
+  
   if( mainwindow == NULL )
     {
       printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -142,10 +150,10 @@ void Game::init()
   //scene->AddGameObject(cubeObject);
 
   cubeTexture = Resources::LoadTexture("../resources/images/torusdiffuse.dds");
-  cubeNormalTexture = Resources::LoadTexture("../resources/images/torus_n.dds");
+  // cubeNormalTexture = Resources::LoadTexture("../resources/images/torus_n.dds");
 
   cubeMaterial->setMainTexture(cubeTexture);
-  cubeMaterial->setTexture("_normaltex", cubeNormalTexture);
+  // cubeMaterial->setTexture("_normaltex", cubeNormalTexture);
 
   catObject = GameObject::createFromFile("../resources/models/torus.obj");
   scene->AddGameObject(catObject);
