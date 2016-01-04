@@ -5,17 +5,16 @@ using namespace Hodhr;
 
 
 Light::Light(const GameObject& gameObject)
-    : Behavior(gameObject),
-      mIntensity(1.0f),
-      mColor(1.0,1.0,1.0),
-      mRange(10.0f)
-{
-
+  : Behavior(gameObject),
+    mIntensity(1.0f),
+    mColor(1.0,1.0,1.0),
+    mRange(10.0f) {
+  
 }
 
 Light::~Light()
 {
-
+  
 }
 
 void Light::setColor(Color color)

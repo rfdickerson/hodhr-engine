@@ -140,7 +140,7 @@ void Game::init()
   // light.transform.position =
   scene->AddGameObject(lightGameObject);
 
-  Shader * phongShader = Resources::LoadShader("../resources/shaders/phong.sdr");
+  Shader * phongShader = Resources::LoadShader("../resources/shaders/basic.sdr");
   phongShader->compile();
 
   cubeMaterial = new Material();
@@ -149,13 +149,13 @@ void Game::init()
   //cubeObject = GameObject::createPrimitive(GAMEOBJECT_CUBE);
   //scene->AddGameObject(cubeObject);
 
-  cubeTexture = Resources::LoadTexture("../resources/images/torusdiffuse.dds");
+  cubeTexture = Resources::LoadTexture("../resources/images/cube2.dds");
   // cubeNormalTexture = Resources::LoadTexture("../resources/images/torus_n.dds");
 
   cubeMaterial->setMainTexture(cubeTexture);
   // cubeMaterial->setTexture("_normaltex", cubeNormalTexture);
 
-  catObject = GameObject::createFromFile("../resources/models/torus.obj");
+  catObject = GameObject::createFromFile("../resources/models/cube.obj");
   scene->AddGameObject(catObject);
 
   MeshRenderer *renderer = catObject->GetComponent<MeshRenderer>();

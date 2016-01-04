@@ -33,7 +33,12 @@ typedef struct  {
     GLushort r, g, b;         // vertex colors
 } HodhrVertex;
 
-
+typedef struct {
+  glm::vec3 position;         // position of the light
+  glm::vec3 diffuseColor;     // color of the light
+  glm::vec3 ambientColor;     // ambient color.
+  GLfloat intensity;          // intensity multiplied by the color
+} LightDesc;
 
 
 Graphics::Graphics()
@@ -46,20 +51,6 @@ Graphics::~Graphics()
 
 }
 
-/**
- * @brief Graphics::drawMesh
- * @param mesh
- * @param position
- * @param rotation
- * @param mat
- * @param layer
- * @param camera If null (default), the mesh will be drawn in all cameras. Otherwise,
- * it will be rendered in the given camera only.
- * @param submeshIndex
- * @param properties Additional material properties to apply onto material.
- * @param castShadows
- * @param receiveShadows
- */
 void Graphics::drawMesh(const Mesh & mesh,
                         const glm::vec3 & position,
                         const glm::quat & rotation,
@@ -97,8 +88,8 @@ void Graphics::drawMesh(const Mesh & mesh,
     const glm::mat4 projMatrix = currentCamera->projectionMatrix();
 
     const glm::mat4 t = glm::translate(
-                glm::mat4(1.0f),
-                position);
+				       glm::mat4(1.0f),
+				       position);
 
     const glm::mat4 r = glm::toMat4(rotation);
 
@@ -156,26 +147,25 @@ void Graphics::drawMesh(const Mesh & mesh,
 
     // bind textures
     if (mat.mainTexture() != NULL) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, mat.mainTexture()->nativeTextureID());
-        glUniform1i(textureLocation, 0);
-
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture(GL_TEXTURE_2D, mat.mainTexture()->nativeTextureID());
+      glUniform1i(textureLocation, 0);
+      
     }
 
     Texture2D * normalTexture = (Texture2D *) mat.getTexture("_normaltex");
-
-    if (normalTexture)
-    {
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, normalTexture->nativeTextureID());
-        glUniform1i(normalTexLocation, 1);
+    
+    if (normalTexture) {
+      glActiveTexture(GL_TEXTURE1);
+      glBindTexture(GL_TEXTURE_2D, normalTexture->nativeTextureID());
+      glUniform1i(normalTexLocation, 1);
     }
-
+    
 
     checkErrors("Prepare to bind vertex array object.");
     glBindVertexArray(mesh.mVAO);
     checkErrors("Binded the vertex array object");
-
+    
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
@@ -183,14 +173,14 @@ void Graphics::drawMesh(const Mesh & mesh,
     glEnableVertexAttribArray(4);
     glEnableVertexAttribArray(5);
 
-
+    
     // glEnableVertexAttribArray(5);
-
+    
     //glDrawArrays(GL_TRIANGLES, 0, mesh.vertices.size());
     glDrawElements(GL_TRIANGLES, mesh.triangles.size(), GL_UNSIGNED_SHORT, NULL);
-
+    
     checkErrors("Draw elements.");
-
+    
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glBindVertexArray(0);
@@ -200,10 +190,9 @@ void Graphics::drawMesh(const Mesh & mesh,
 
 }
 
-void Graphics::setRenderTarget(RenderTexture *rt)
-{
-    mActiveColorBuffer = &rt->colorBuffer;
-    mActiveDepthBuffer = &rt->depthBuffer;
+void Graphics::setRenderTarget(RenderTexture *rt) {
+  mActiveColorBuffer = &rt->colorBuffer;
+  mActiveDepthBuffer = &rt->depthBuffer;
 }
 
 void Graphics::uploadMesh( Mesh* mesh )
@@ -219,41 +208,40 @@ void Graphics::uploadMesh( Mesh* mesh )
     // HodhrVertex hvertices = new HodhrVertex[mesh->vertices.size()];
     std::vector<HodhrVertex> hvertices;
 
-    for (unsigned long i=0;i<mesh->vertices.size();i++)
-    {
-        HodhrVertex hv;
-        hv.x = mesh->vertices[i].x;
-        hv.y = mesh->vertices[i].y;
-        hv.z = mesh->vertices[i].z;
+    for (unsigned long i=0;i<mesh->vertices.size();i++) {
+      HodhrVertex hv;
+      hv.x = mesh->vertices[i].x;
+      hv.y = mesh->vertices[i].y;
+      hv.z = mesh->vertices[i].z;
+      
+      hv.nx = mesh->normals[i].x;
+      hv.ny = mesh->normals[i].y;
+      hv.nz = mesh->normals[i].z;
+      
+      hv.tx = mesh->tangents[i].x;
+      hv.ty = mesh->tangents[i].y;
+      hv.tz = mesh->tangents[i].z;
+      hv.bx = mesh->bittangents[i].x;
+      hv.by = mesh->bittangents[i].y;
+      hv.bz = mesh->bittangents[i].z;
 
-        hv.nx = mesh->normals[i].x;
-        hv.ny = mesh->normals[i].y;
-        hv.nz = mesh->normals[i].z;
+      hv.s = round(mesh->uvs[i].x * USHRT_MAX);
+      hv.t = round(mesh->uvs[i].y * USHRT_MAX);
 
-        hv.tx = mesh->tangents[i].x;
-        hv.ty = mesh->tangents[i].y;
-        hv.tz = mesh->tangents[i].z;
-        hv.bx = mesh->bittangents[i].x;
-        hv.by = mesh->bittangents[i].y;
-        hv.bz = mesh->bittangents[i].z;
-
-        hv.s = round(mesh->uvs[i].x * USHRT_MAX);
-        hv.t = round(mesh->uvs[i].y * USHRT_MAX);
-
-        hv.r = mesh->colors[i].red()*USHRT_MAX;
-        hv.g = mesh->colors[i].green()*USHRT_MAX;
-        hv.b = mesh->colors[i].blue()*USHRT_MAX;
+      hv.r = mesh->colors[i].red()*USHRT_MAX;
+      hv.g = mesh->colors[i].green()*USHRT_MAX;
+      hv.b = mesh->colors[i].blue()*USHRT_MAX;
 
 
-        hvertices.push_back(hv);
+      hvertices.push_back(hv);
     }
 
-
+    
     glGenVertexArrays(1, &mesh->mVAO);
     glBindVertexArray(mesh->mVAO);
     checkErrors("Bind vertex array");
-
-
+    
+    
     glGenBuffers(1, &vertexBuffer);
     glGenBuffers(1, &indiceBuffer);
     checkErrors("Generate buffers.");
@@ -263,7 +251,7 @@ void Graphics::uploadMesh( Mesh* mesh )
                  &hvertices[0], GL_STATIC_DRAW);
 
     checkErrors("Bind array buffer and load data.");
-
+    
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
                           sizeof(HodhrVertex), BUFFER_OFFSET(0));
@@ -312,21 +300,20 @@ void Graphics::uploadMesh( Mesh* mesh )
 
 }
 
-void removeMesh( Mesh *mesh )
-{
-    if (mesh->vao()) {
-        // glDeleteVertexArrays(1, &mesh->vao());
-    }
+void removeMesh( Mesh *mesh ) {
+  if (mesh->vao()) {
+    // glDeleteVertexArrays(1, &mesh->vao());
+  }
 }
 
-void Graphics::checkErrors(const std::string & label)
-{
-    GLenum errCode;
-    const GLubyte *errString;
-    errCode = glGetError();
-    if (errCode  != GL_NO_ERROR)
-    {
+void Graphics::checkErrors(const std::string & label) {
 
+  GLenum errCode;
+  const GLubyte *errString;
+  errCode = glGetError();
+  if (errCode  != GL_NO_ERROR)
+    {
+      
         //errString = gluErrorString(errCode);
         //std::string e((char*)errString);
 
@@ -339,9 +326,9 @@ void Graphics::checkErrors(const std::string & label)
 
 void Graphics::blit(const Texture & source, const RenderTexture & dest)
 {
-    GLsizei halfWidth = (GLsizei) (dest.width / 2.0f);
-    GLsizei halfHeight = (GLsizei) (dest.height / 2.0f);
+  GLsizei halfWidth = (GLsizei) (dest.width / 2.0f);
+  GLsizei halfHeight = (GLsizei) (dest.height / 2.0f);
 
-    glBlitFramebuffer(0, 0, dest.width, dest.height, 0, 0, halfWidth, halfHeight,
-                      GL_COLOR_BUFFER_BIT, GL_LINEAR);
+  glBlitFramebuffer(0, 0, dest.width, dest.height, 0, 0, halfWidth, halfHeight,
+		    GL_COLOR_BUFFER_BIT, GL_LINEAR);
 }

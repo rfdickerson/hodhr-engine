@@ -8,16 +8,18 @@ layout (location = 0) in vec3 VertexPosition;
 layout (location = 1) in vec3 VertexNormal;
 layout (location = 2) in vec3 VertexTangent;
 layout (location = 3) in vec3 VertexBittangent;
-layout (location = 4) in vec2 VertexUV;
+layout (location = 4) in vec2 TextureCoords;
 layout (location = 5) in vec3 VertexColor;
 
 uniform mat4 MVP;
 
 out vec3 fragmentColor;
+out vec2 texCoords;
 
 void main()
 {
 	fragmentColor = VertexColor;
+	texCoords = TextureCoords;
         gl_Position = MVP * vec4(VertexPosition, 1.0);
 }
 
@@ -26,13 +28,17 @@ void main()
 
 #version 330 core
 
+uniform sampler2D diffuseTex;
+
 in vec3 fragmentColor;
-// layout (location = 0) out vec4 FragColor;
-out vec3 color;
+in vec2 texCoords;
+
+layout (location = 0) out vec4 FragColor;
 
 void main() {
 
-     color = fragmentColor;
+     	// FragColor = fragmentColor;
+	FragColor = texture(diffuseTex, texCoords);
 	// color = vec3(1.0,0.0,1.0);
 
 }

@@ -9,9 +9,9 @@
 #include <cerrno>
 
 // OpenIL libraries
-#include <il.h>
-#include <ilu.h>
-#include <ilut.h>
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
 
 //#include <OpenImageIO/imageio.h>
 
@@ -73,6 +73,7 @@ Texture2D * Resources::LoadTexture(const std::string & path)
 
   ilEnable(ILUT_OPENGL_CONV);
 
+  ILuint devilError;
   ILuint imageName;
   ilGenImages(1, &imageName);
 
@@ -81,15 +82,34 @@ Texture2D * Resources::LoadTexture(const std::string & path)
 
   // Loads the image specified by the filename
   if (!ilLoadImage(path.c_str())) {
-    printf("Error loading the texture image\n");
+
+    devilError = ilGetError();
+    // printf("Error loading the texture image %s\n", iluGetErrorString(devilError));
   }
 
-  int xres = ilGetInteger( IL_IMAGE_WIDTH);
-  int yres = ilGetInteger( IL_IMAGE_HEIGHT);
 
+  
+  int xres = ilGetInteger( IL_IMAGE_WIDTH );
+  int yres = ilGetInteger( IL_IMAGE_HEIGHT );
+  int depth = ilGetInteger ( IL_IMAGE_DEPTH );
+
+  std::vector<unsigned char> pixels (4*xres*yres*depth);
+  
   int numMipLevels = ilGetInteger( IL_NUM_MIPMAPS );
 
   printf("Loading image %s as %d by %d with %d mipmaps\n", path.c_str(), xres, yres, numMipLevels);
+
+  Texture2D * newTexture = new Texture2D(xres, yres);
+  newTexture->setDepth ( depth );
+  newTexture->setMipmapCount (numMipLevels );
+  newTexture->loadRawTextureData( pixels );
+  newTexture->m_devilID = imageName;
+
+
+  newTexture->apply();
+ 
+
+  return newTexture;
   
 	/**
     ImageInput *in = ImageInput::open( path );

@@ -5,22 +5,19 @@
 using namespace Hodhr;
 
 Color::Color()
-    : mGamma(2.2f), mColorData(1,1,1,1)
-{
-
+  : mGamma(2.2f), mColorData(1,1,1,1) {
+  
 }
 
 Color::Color(float r, float g, float b, float a)
-    : mGamma(2.2f), mColorData(r,g,b,a)
-{
+  : mGamma(2.2f), mColorData(r,g,b,a) {
 
 }
 
 
-Color::Color(const Color& c)
-{
-    mColorData = c.mColorData;
-    mGamma = c.mGamma;
+Color::Color(const Color& c) {
+  mColorData = c.mColorData;
+  mGamma = c.mGamma;
 }
 
 Color& Color::operator=(const Color& other)
@@ -61,10 +58,9 @@ Color Color::Red()
     return Color(1.0, 0.0,0.0,1.0f);
 }
 
- Color Color::Green()
- {
-     return Color(0.0, 1.0, 0.0, 1.0f);
- }
+Color Color::Green()  {
+  return Color(0.0, 1.0, 0.0, 1.0f);
+}
 
  Color Color::Blue()
  {

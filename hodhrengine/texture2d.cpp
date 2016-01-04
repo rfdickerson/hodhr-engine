@@ -4,11 +4,12 @@
 
 #include <vector>
 
-// #include <OpenImageIO/imageio.h>
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
+
 
 using namespace Hodhr;
-
-// OIIO_NAMESPACE_USING
 
 Texture2D::Texture2D(int w, int h)
 {
@@ -17,12 +18,12 @@ Texture2D::Texture2D(int w, int h)
     m_height = h;
     this->name = "Unnamed texture";
 
-    glGenTextures(1, &m_nativeTextureID);
+    // glGenTextures(1, &m_nativeTextureID);
 
-    char out[80];
-    sprintf(out, "New texture has hardware ID: %d", m_nativeTextureID);
+    //char out[80];
+    //sprintf(out, "New texture has hardware ID: %d", m_nativeTextureID);
 
-    Debug::log(out, this);
+    // Debug::log(out, this);
 }
 
 /**
@@ -33,20 +34,21 @@ Texture2D::Texture2D(int w, int h)
 * or sRGB space.
  */
 Texture2D::Texture2D(int w, int h,
-          TextureFormat format, bool mipmap, bool linear)
-    : m_format(format), m_mipmap(mipmap), m_linear(linear)
+		     TextureFormat format, bool mipmap, bool linear)
+  : m_format(format), m_mipmap(mipmap), m_linear(linear)
 {
-    m_width = w;
-    m_height = h;
+  m_width = w;
+  m_height = h;
 }
 
 
 Texture2D::~Texture2D()
 {
 
-    glDeleteTextures(1, &m_nativeTextureID);
+  glDeleteTextures(1, &m_nativeTextureID);
+  ilDeleteImages(1, &m_devilID);
 
-    Debug::log("Deleted a texture", this);
+  Debug::log("Deleted a texture", this);
 
 }
 
@@ -147,129 +149,146 @@ void Texture2D::setPixels(std::vector<Color> colors, int miplevel)
 
 }
 
-void Texture2D::apply()
-{
-    char out[80];
-    glBindTexture(GL_TEXTURE_2D, m_nativeTextureID);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    /*
-    glTexImage2D(GL_TEXTURE_2D,
-                   0,
-                   GL_RGBA8,
-                   m_width, m_height,
-                   0,
-                   GL_RGBA,
-                   GL_UNSIGNED_BYTE,
-                   &m_rawTextureData[0]);
-                   */
+void Texture2D::apply() {
 
 
-    int height = m_height;
-    int width = m_width;
+  ilBindImage(m_devilID);
+  
+  ILuint devilError;
+  m_nativeTextureID = ilutGLBindTexImage();
+  devilError = ilGetError();
 
-    int level;
-    long offset = 0;
-
-    // set the anisotropic filter to the max.
-    float aniso = 0.0f;
-    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &aniso);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, aniso);
-    m_anisoLevel = (int) aniso;
-
-
-    //sprintf(out, "Anistropic filtering at %f", aniso);
-    //Debug::log(out, this);
-
-    glTexStorage2D(GL_TEXTURE_2D, m_mipmapCount,
-                   GL_RGBA8, width, height);
-
-    /*
-    glTexImage2D(GL_TEXTURE_2D,
-                   0,
-                   GL_RGBA8,
-                    width, height,
-                    0,
-                    GL_RGBA,
-                   GL_UNSIGNED_BYTE,
-                   &m_rawTextureData[0]);
-                   */
-
-    GLenum errCode;
-    const GLubyte *errString;
-    errCode = glGetError();
-    if (errCode  != GL_NO_ERROR)
-    {
-        errString = gluErrorString(errCode);
-        std::string e((char*)errString);
-
-        // Debug::log(e.c_str(), this);
-        sprintf(out, "glTexStorage2D returned: %s", e.c_str());
-        Debug::log(out, this);
-    }
-
-
-    for (level = 0; level < this->mipmapCount(); ++level) {
-
-        long size = width*height*m_depth;
-
-        // get subset of vector
-        std::vector<unsigned char>::const_iterator first = m_rawTextureData.begin() + offset;
-        std::vector<unsigned char>::const_iterator last = m_rawTextureData.begin() + offset + size;
-
-        std::vector<unsigned char> mipimage = std::vector<unsigned char>(first,last);
-
-
-
-
-        glTexSubImage2D(GL_TEXTURE_2D,
-                        level,
-                        0, 0,
-                        width, height,
-                        GL_RGBA, GL_UNSIGNED_BYTE,
-                        &mipimage[0]);
-
-        GLenum errCode;
-        const GLubyte *errString;
-        errCode = glGetError();
-        if (errCode  != GL_NO_ERROR)
-        {
-            errString = gluErrorString(errCode);
-            std::string e((char*)errString);
-
-            Debug::log(e.c_str(), this);
-        }
-
-        sprintf(out, "Added mipmap level %d begin %ld end %ld", level, offset, offset+size);
-        //Debug::log(out, this);
-
-        sprintf(out, "Height: %d, Width: %d", height, width);
-        //Debug::log(out, this);
-
-        sprintf(out, "The number of elements in mipmap is %d", mipimage.size());
-        //Debug::log(out, this);
-
-        height /= 2;
-        width /= 2;
-
-
-
-        offset += size;
-
-    }
-
-
-
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 11);
-
-
-    glBindTexture(GL_TEXTURE_2D, 0);
+  if (devilError != IL_NO_ERROR) {
+    // printf("Error: %s\n", iluGetErrorString( devilError));
+  }
+  
+  
 }
+
+// void Texture2D::apply()
+// {
+//     char out[80];
+//     glBindTexture(GL_TEXTURE_2D, m_nativeTextureID);
+
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+//     /*
+//     glTexImage2D(GL_TEXTURE_2D,
+//                    0,
+//                    GL_RGBA8,
+//                    m_width, m_height,
+//                    0,
+//                    GL_RGBA,
+//                    GL_UNSIGNED_BYTE,
+//                    &m_rawTextureData[0]);
+//                    */
+
+
+//     int height = m_height;
+//     int width = m_width;
+
+//     int level;
+//     long offset = 0;
+
+//     // set the anisotropic filter to the max.
+//     float aniso = 0.0f;
+//     glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &aniso);
+//     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, aniso);
+//     m_anisoLevel = (int) aniso;
+
+
+//     //sprintf(out, "Anistropic filtering at %f", aniso);
+//     //Debug::log(out, this);
+
+//     glTexStorage2D(GL_TEXTURE_2D, m_mipmapCount,
+//                    GL_RGBA8, width, height);
+
+//     /*
+//     glTexImage2D(GL_TEXTURE_2D,
+//                    0,
+//                    GL_RGBA8,
+//                     width, height,
+//                     0,
+//                     GL_RGBA,
+//                    GL_UNSIGNED_BYTE,
+//                    &m_rawTextureData[0]);
+//                    */
+
+//     GLenum errCode;
+//     const GLubyte *errString;
+//     errCode = glGetError();
+//     if (errCode  != GL_NO_ERROR)
+//     {
+//         errString = gluErrorString(errCode);
+//         std::string e((char*)errString);
+
+//         // Debug::log(e.c_str(), this);
+//         sprintf(out, "glTexStorage2D returned: %s", e.c_str());
+//         Debug::log(out, this);
+//     }
+
+
+//     for (level = 0; level < this->mipmapCount(); ++level) {
+
+//         long size = width*height*m_depth;
+
+//         // get subset of vector
+//         std::vector<unsigned char>::const_iterator first = m_rawTextureData.begin() + offset;
+//         std::vector<unsigned char>::const_iterator last = m_rawTextureData.begin() + offset + size;
+
+//         std::vector<unsigned char> mipimage = std::vector<unsigned char>(first,last);
+
+
+
+
+//         glTexSubImage2D(GL_TEXTURE_2D,
+//                         level,
+//                         0, 0,
+//                         width, height,
+//                         GL_RGBA, GL_UNSIGNED_BYTE,
+//                         &mipimage[0]);
+
+//         GLenum errCode;
+//         const GLubyte *errString;
+//         errCode = glGetError();
+//         if (errCode  != GL_NO_ERROR)
+//         {
+//             errString = gluErrorString(errCode);
+//             std::string e((char*)errString);
+
+//             Debug::log(e.c_str(), this);
+//         }
+
+//         sprintf(out, "Added mipmap level %d begin %ld end %ld", level, offset, offset+size);
+//         //Debug::log(out, this);
+
+//         sprintf(out, "Height: %d, Width: %d", height, width);
+//         //Debug::log(out, this);
+
+//         sprintf(out, "The number of elements in mipmap is %d", mipimage.size());
+//         //Debug::log(out, this);
+
+//         height /= 2;
+//         width /= 2;
+
+
+
+//         offset += size;
+
+//     }
+
+
+
+//     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+//     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 11);
+
+
+//     glBindTexture(GL_TEXTURE_2D, 0);
+// }
 
 
 void Texture2D::setMipmapCount(int count)
