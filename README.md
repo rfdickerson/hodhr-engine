@@ -5,7 +5,19 @@
 - [x] Wavefront (OBJ) Loading
 - [x] Textures
 
-## Requires:
-- Qt
-- GLEW
-- GLM
+# Compiling:
+
+1. Install the dependencies:
+
+```
+sudo apt-get install libglm-dev libglew-dev libassimp-dev libdevil-dev libglew-dev libsdl2-dev
+```
+
+2. Create a build directory:
+
+```
+mkdir build
+cd build
+cmake ..
+make
+```
